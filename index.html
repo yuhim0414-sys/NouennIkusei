@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>まなび農園 6年生のぼうけん</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+:root{
+  --bg:#e3f0df; --ink:#1d2b1f; --card:#fbfdf6; --line:#b9d1b2; --muted:#3b4f3e;
+  --soil:#6a4526; --soil2:#83592f; --leaf:#3f9a3a; --leaf-d:#2a6f2c; --sun:#ffc93c; --berry:#dc4630; --sky:#bfe2ee; --on-leaf:#fff;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#162018; --ink:#eef4e6; --card:#222e23; --line:#3b4d3b; --muted:#c8d6c4;
+  --soil:#4d321c; --soil2:#614125; --leaf:#4fae48; --leaf-d:#7fd176; --sun:#ffc93c; --berry:#ff7a63; --sky:#24414b; --on-leaf:#0d1a0e;
+}}
+:root[data-theme="dark"]{
+  --bg:#162018; --ink:#eef4e6; --card:#222e23; --line:#3b4d3b; --muted:#c8d6c4;
+  --soil:#4d321c; --soil2:#614125; --leaf:#4fae48; --leaf-d:#7fd176; --sun:#ffc93c; --berry:#ff7a63; --sky:#24414b; --on-leaf:#0d1a0e;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",Meiryo,sans-serif;font-weight:700;font-size:17px;line-height:1.6;-webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.num,h1,h2{font-family:"Dela Gothic One","Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;font-weight:400}
+.app{max-width:560px;margin:0 auto;padding:0 14px 124px}
+
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0 8px;display:flex;gap:10px;align-items:center;border-bottom:2px solid var(--line)}
+.hud .lv{flex:1;min-width:0}
+.hud .lv b{font-size:20px}
+.bar{height:9px;border-radius:9px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--leaf);border-radius:9px;transition:width .3s}
+.chip{background:var(--card);border:2px solid var(--ink);font-size:17px;border-radius:999px;padding:3px 11px;font-weight:700;white-space:nowrap}
+.gear{font-size:22px;padding:4px}
+
+h2{font-size:21px;margin:18px 0 8px}
+p{margin:0 0 8px}
+small,.muted{color:var(--muted)}small{font-size:14px}.guide{background:var(--ink);color:var(--bg);border-radius:16px;padding:13px 15px;font-weight:900;font-size:19px;line-height:1.45;margin:12px 0}
+
+.banner{margin:12px 0;background:var(--sun);color:#3a2a00;border-radius:14px;padding:9px 13px;font-weight:700;font-size:15px}
+.field{background:var(--soil);border-radius:22px;padding:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.plot{aspect-ratio:1;border-radius:14px;background:var(--soil2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:40px;line-height:1.1;color:#fff;position:relative;padding:4px}.plot b{font-size:14px;line-height:1.3;font-weight:900;text-align:center}.plot.ripe b{color:#3a2a00}
+.plot.empty{border:3px dashed rgba(255,255,255,.7);font-size:30px}
+.plot.ripe{background:var(--sun);animation:bob 1s ease-in-out infinite alternate}
+.plot .pips{font-size:10px;letter-spacing:1px;line-height:1}
+@keyframes bob{to{transform:translateY(-4px)}}
+.seg{display:flex;gap:6px;margin:14px 0 8px}
+.seg button{flex:1;min-width:30%;line-height:1.3;padding:11px 4px;font-size:17px;border-radius:12px;border:2px solid var(--line);background:var(--card);font-weight:700}
+.seg button.on{background:var(--leaf-d);border-color:var(--leaf-d);color:var(--bg)}
+.cta{display:block;width:100%;padding:17px;border-radius:18px;background:var(--leaf-d);color:var(--bg);font-size:21px;font-weight:900;box-shadow:0 5px 0 var(--ink)}
+.cta:active{transform:translateY(3px);box-shadow:0 2px 0 var(--leaf-d)}
+.btn{padding:10px 16px;border-radius:12px;background:var(--leaf-d);color:var(--bg);font-weight:900;font-size:16px}
+.btn.sub{background:var(--card);color:var(--ink);border:2px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.box{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:13px;margin:12px 0}
+.row{display:flex;align-items:center;gap:11px}
+.row .grow{flex:1;min-width:0}
+.row .em{font-size:32px;width:42px;text-align:center;flex:none}
+.list>.row{padding:11px 0;border-bottom:2px dotted var(--line)}
+.list>.row:last-child{border:0}
+.stock{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.stock span{background:var(--bg);border-radius:10px;padding:3px 9px;font-weight:700}
+
+/* map: the route the child drew, as stations on one line */
+.route{position:relative;margin:14px 0 0;padding-left:34px}
+.route::before{content:"";position:absolute;left:13px;top:10px;bottom:10px;width:6px;border-radius:6px;background:repeating-linear-gradient(var(--line) 0 10px,transparent 10px 16px)}
+.stop{position:relative;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px;margin-bottom:12px}
+.stop::before{content:"";position:absolute;left:-30px;top:20px;width:20px;height:20px;border-radius:50%;background:var(--bg);border:5px solid var(--line)}
+.stop.open::before{border-color:var(--leaf);background:var(--sun)}
+.stop.lock{background:transparent;border-style:dashed}
+.stop h3{margin:0;font-size:18px;font-weight:900}
+.stop .need{font-family:"Dela Gothic One",sans-serif;font-size:15px;color:var(--muted)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cell{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 2px;text-align:center;font-size:14px;font-weight:700;line-height:1.3}
+.cell .em{font-size:34px;display:block}
+.cell.no{opacity:.6}
+.r3{border-color:var(--sun)} .r4{border-color:var(--berry)}
+.tag{font-family:"Dela Gothic One",sans-serif;font-size:12px}
+
+nav{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--card);border-top:2px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav div{max-width:560px;margin:0 auto;display:flex}
+nav button{flex:1;margin:5px 3px;padding:5px 0;border-radius:12px;font-size:13px;font-weight:900;color:var(--ink)}
+nav button span{display:block;font-size:25px;line-height:1.2}
+nav button.on{background:var(--leaf-d);color:var(--bg)}
+
+.over{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px calc(env(safe-area-inset-bottom,0px) + 20px)}
+.over .in{max-width:560px;margin:0 auto}
+.qtop{display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.qtop button{font-size:15px;padding:6px 12px;border-radius:10px;border:2px solid var(--line);background:var(--card)}
+.qcard{background:var(--card);border:3px solid var(--ink);border-radius:20px;padding:18px 14px;margin:14px 0;text-align:center}
+.qcard p{font-size:27px;font-weight:700;margin:6px 0 0;line-height:1.9}
+.qcard u{text-decoration-thickness:3px;text-decoration-color:var(--berry);text-underline-offset:5px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts button{min-height:84px;padding:8px;border-radius:16px;background:var(--card);border:3px solid var(--ink);font-size:25px;font-weight:700}
+.opts button.ok{background:var(--leaf);border-color:var(--leaf);color:var(--on-leaf)}
+.opts button.ng{background:var(--berry);border-color:var(--berry);color:#fff}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.82em;line-height:1.2;margin:0 .15em}
+.fr i{font-style:normal;padding:0 .3em}
+.fr i:first-child{border-bottom:2px solid currentColor}
+#fb{margin-top:14px;text-align:center;font-weight:700}
+#fb .gain{font-size:20px}
+#fb .btn{margin-top:10px;font-size:17px;padding:11px 26px}
+.foe{display:flex;gap:12px;align-items:center;margin-top:10px}
+.foe .big{font-size:54px;line-height:1}
+.tbar{height:9px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:8px}
+.tbar i{display:block;height:100%;width:100%;background:var(--berry)}
+.center{text-align:center}
+.huge{font-size:76px;line-height:1.2}
+
+#modal{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:82%;overflow-y:auto;border-radius:22px 22px 0 0;padding:16px 16px calc(env(safe-area-inset-bottom,0px) + 18px)}
+.sheet h2{margin-top:0}
+#toasts{position:fixed;top:calc(env(safe-area-inset-top,0px) + 58px);left:0;right:0;z-index:40;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+.toast{background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-weight:700;font-size:16px;max-width:92%}
+input[type=number]{font:inherit;width:96px;padding:7px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+.pickg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pickg button{min-height:58px;padding:8px 6px;border-radius:12px;border:2px solid var(--ink);background:var(--bg);font-weight:900;font-size:16px;line-height:1.3}.pickg button.on{background:var(--leaf-d);color:var(--bg)}.pickg button small{font-size:12px;color:inherit;opacity:.85}
+.fig{width:min(250px,84%);height:auto;stroke:currentColor;stroke-width:2.5;fill:var(--sky);stroke-linejoin:round;vertical-align:middle}
+.fig text{fill:currentColor;stroke:none;font-size:16px;font-weight:900;font-family:inherit}.fig .n{fill:none}.fig .d{fill:none;stroke-dasharray:5 4;stroke-width:1.8}
+.tools{display:flex;gap:8px;margin-top:14px}.tools button{flex:1;padding:11px 4px;border-radius:12px;border:2px solid var(--ink);background:var(--card);font-weight:900}.tools button.on{background:var(--leaf-d);color:var(--bg)}
+.calc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.calc .cd{grid-column:1/-1;background:var(--card);border:3px solid var(--ink);border-radius:12px;padding:8px 12px;text-align:right;font-size:27px;min-height:58px;overflow-x:auto;white-space:nowrap}
+.calc button{padding:12px 0;border-radius:12px;background:var(--card);border:2px solid var(--line);font-size:22px;font-weight:900}
+.calc button:nth-last-child(-n+2){grid-column:span 2;font-size:16px}
+.memo{margin-top:10px;text-align:right}#mc{width:100%;height:240px;background:var(--card);border:3px dashed var(--ink);border-radius:14px;touch-action:none;display:block;margin-bottom:6px}
+.opts.long{grid-template-columns:1fr}.opts.long button{font-size:19px;min-height:58px}
+details{border:2px solid var(--line);border-radius:14px;margin-top:8px;padding:0 10px}details[open]{padding-bottom:10px}
+summary{font-weight:900;font-size:18px;padding:12px 2px;cursor:pointer}
+.pickg button:disabled{opacity:.45}
+.sws{display:flex;gap:9px;flex-wrap:wrap}.sw{width:42px;height:42px;border-radius:50%;border:3px solid var(--line)}.sw.on{border-color:var(--ink);box-shadow:0 0 0 3px var(--sun)}
+.scene{position:relative;height:150px;border-radius:22px 22px 0 0;overflow:hidden;margin-top:6px}
+.bgsvg{position:absolute;inset:0;width:100%;height:100%}
+.avatar{position:absolute;right:14px;bottom:0;padding:0;line-height:0}
+.avatar span{position:absolute;left:-34px;top:8px;background:#fffdf3;color:#2b2a1f;border:2px solid #2b2a1f;border-radius:999px;font-size:12px;line-height:1.6;padding:0 8px;font-weight:900}
+.field{margin-top:0;border-radius:0 0 22px 22px;background:linear-gradient(#5fae4e,#468c3b);border-top:5px solid #3d7a33}
+.plot{border-radius:10px;background:repeating-linear-gradient(0deg,#6a4323 0 9px,#7c5230 9px 18px);box-shadow:inset 0 4px 9px rgba(0,0,0,.5),0 2px 0 rgba(255,255,255,.18)}
+.plot b{text-shadow:0 1px 2px rgba(0,0,0,.8)}
+.plot.empty{background:repeating-linear-gradient(0deg,#75502e 0 9px,#86603a 9px 18px)}
+.plot.ripe{background:repeating-linear-gradient(0deg,#6a4323 0 9px,#7c5230 9px 18px);box-shadow:0 0 0 4px var(--sun),inset 0 4px 9px rgba(0,0,0,.5)}
+.plot.ripe b{color:#ffe27a}
+.rp{filter:drop-shadow(0 4px 2px rgba(0,0,0,.45))}
+.basket{position:absolute;left:46%;bottom:4px;font-size:42px;line-height:1}
+.basket b{position:absolute;right:-12px;top:-6px;background:#dc4630;color:#fff;border-radius:999px;font-size:14px;min-width:26px;text-align:center;padding:0 5px;line-height:1.7}
+.exp{display:block;text-align:left;background:var(--card);border:3px solid var(--sun);border-radius:14px;padding:10px 13px;margin:8px 0 2px;font-size:17px;line-height:1.7}.exp b{color:var(--leaf-d)}
+.wbar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.wbar div{background:var(--card);border:2px solid var(--line);border-radius:12px;text-align:center;padding:5px 2px;line-height:1.25}
+.wbar span{font-size:20px}.wbar small{display:block;font-size:12px;color:var(--ink)}.wbar b{font-size:21px}
+.wbar .rec{border-color:var(--sun);box-shadow:0 0 0 3px var(--sun)}
+.tagr{background:var(--sun);color:#3a2a00;border-radius:999px;font-size:13px;padding:1px 9px;margin-left:4px;white-space:nowrap}
+@keyframes pop{0%{transform:scale(.3)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+.pop{animation:pop .5s}
+@keyframes shake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+.shake{animation:shake .4s}
+@keyframes flash{0%{box-shadow:0 0 0 0 var(--leaf)}100%{box-shadow:0 0 0 26px transparent}}
+.qcard.good{animation:flash .6s;border-color:var(--leaf)}
+@keyframes danger{50%{box-shadow:inset 0 0 0 10px var(--berry)}}
+.over.danger{box-shadow:inset 0 0 0 5px var(--berry);animation:danger 1s infinite}
+nav button.navc{flex:none;width:84px;height:84px;margin:-24px 2px 4px;border-radius:50%;background:var(--leaf-d);color:var(--bg);border:5px solid var(--card);font-size:12px;box-shadow:0 4px 0 var(--ink)}
+nav button.navc span{font-size:30px}
+nav button.navc:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+nav div{align-items:flex-end}
+.hud{gap:6px!important}.chip{padding:3px 8px!important}.gear{padding:2px!important}
+@media (prefers-reduced-motion:reduce){.pop,.shake,.qcard.good,.over.danger{animation:none}.plot.ripe{animation:none}.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hud">
+    <div class="lv"><b class="num">レベル <span id="lv"></span></b> <small id="xpt"></small><div class="bar"><i id="xpb"></i></div></div>
+    <span class="chip">🪙 <span id="mo"></span></span>
+    <span class="chip">🎟️ <span id="tk"></span></span>
+    <button class="gear" data-a="mute" id="mu" aria-label="音のオンオフ"></button>
+    <button class="gear" data-a="settings" aria-label="せってい">⚙️</button>
+  </header>
+  <main id="view"></main>
+</div>
+<nav><div id="tabs"></div></nav>
+<div id="quiz" class="over" hidden><div class="in"><div class="qtop"><span id="qlabel"></span><button data-a="closeQuiz">やめる</button></div><div id="qbody"></div></div></div>
+<div id="modal" hidden><div class="sheet" id="sheet"></div></div>
+<div id="toasts"></div>
+
+<script>
+/* ===== 調整用の数値（ここを変えるとバランスが変わります） ===== */
+const AREAS=[
+ {id:'farm',lv:1,e:'🌾',n:'農園',d:'作物を育てて売ろう。'},
+ {id:'river',act:'fish',lv:50,cost:3000,e:'🏞️',n:'川',d:'問題に正解して川の魚をつろう。つりざおが必要。'},
+ {id:'forest',act:'find',lv:100,cost:10000,e:'🌲',n:'森',d:'めずらしい虫や動物をさがそう。きのこも育てられる。'},
+ {id:'rail',lv:150,cost:30000,e:'🚂',n:'鉄道',d:'遠くの町へ出荷できる。売るねだんが1.5倍。'},
+ {id:'ship',lv:300,cost:100000,e:'🚢',n:'船',d:'海の向こうへ出荷できる。売るねだんが2倍。'},
+ {id:'sea',act:'fish',lv:500,cost:300000,e:'🌊',n:'海',d:'海の大物をつろう。'},
+ {id:'plane',lv:600,cost:1000000,e:'✈️',n:'ひこうき',d:'世界中へ出荷できる。売るねだんが3倍。'}
+];
+const MAXLV=1000;
+const isOpen=a=>a.id==='farm'||!!S.open[a.id];
+const need=l=>35+l;
+// 作物: id, 絵, 名前, たねのねだん, 必要な水やり回数, 売るねだん, XP, 必要レベル, 季節
+const CROPS=[
+ ['carrot','🥕','にんじん',20,3,50,8,1],['potato','🥔','じゃがいも',40,4,100,12,3],['tomato','🍅','トマト',80,5,190,18,8],
+ ['corn','🌽','とうもろこし',150,6,350,25,15],['nasu','🍆','なす',250,7,580,35,25],['ichigo','🍓','いちご',400,8,950,50,40],
+ ['kinoko','🍄','きのこ',700,8,1700,80,100],['budou','🍇','ぶどう',1200,9,3000,120,150],['pine','🍍','パイナップル',3000,10,8000,250,300],
+ ['melon','🍈','メロン',6000,10,17000,400,500],['mango','🥭','マンゴー',12000,12,36000,700,600],
+ ['tulip','🌷','チューリップ',60,4,220,25,1,'spr'],['suika','🍉','すいか',60,4,220,25,1,'sum'],['pumpkin','🎃','かぼちゃ',60,4,220,25,1,'aut'],['mikan','🍊','みかん',60,4,220,25,1,'win']
+].map(c=>({id:c[0],e:c[1],n:c[2],cost:c[3],w:c[4],sell:c[5],xp:c[6],lv:c[7],sea:c[8]}));
+const CROP=Object.fromEntries(CROPS.map(c=>[c.id,c]));
+// 教科ごとの水と、作物が必要とする水の組み合わせ（合計は「必要な水やり回数」と同じにする）
+const TYPES=['math','kanji','sci','soc'],TI={math:'🔢',kanji:'✍️',sci:'🔬',soc:'🌏'};
+const RCP={carrot:[2,1,0,0],potato:[2,2,0,0],tomato:[2,1,2,0],corn:[2,2,0,2],nasu:[2,2,2,1],ichigo:[2,2,2,2],kinoko:[2,2,4,0],budou:[3,2,0,4],pine:[3,3,2,2],melon:[1,1,4,4],mango:[3,3,3,3],tulip:[1,1,1,1],suika:[1,1,1,1],pumpkin:[1,1,1,1],mikan:[1,1,1,1]};
+const rcp=id=>Object.fromEntries(TYPES.map((t,i)=>[t,RCP[id][i]]));
+const needOf=p=>{const q=rcp(p.id),g=p.g||{};TYPES.forEach(t=>q[t]=Math.max(0,q[t]-(g[t]||0)));return q};
+const needTxt=q=>TYPES.filter(t=>q[t]>0).map(t=>TI[t]+q[t]).join(' ');
+// 生きもの・キャラ: id, 絵, 名前, レア度(1〜4), 出る場所
+const CRE=[
+ ['tento','🐞','てんとう虫',1,'farm'],['chou','🦋','ちょう',1,'farm'],['hachi','🐝','みつばち',1,'farm'],['katatsumuri','🐌','かたつむり',1,'farm'],['korogi','🦗','こおろぎ',2,'farm'],['mogura','🦔','はりねずみ',3,'farm'],
+ ['risu','🐿️','りす',1,'forest'],['kumo','🕷️','くも',1,'forest'],['shika','🦌','しか',2,'forest'],['kitsune','🦊','きつね',2,'forest'],['fukurou','🦉','ふくろう',3,'forest'],['kuma','🐻','くま',4,'forest'],
+ ['niwatori','🐔','にわとり',1,'gacha'],['buta','🐖','ぶた',1,'gacha'],['ushi','🐄','うし',2,'gacha'],['hitsuji','🐑','ひつじ',2,'gacha'],['nouka','🧑‍🌾','農家のたつじん',2,'gacha'],['uma','🐴','うま',3,'gacha'],['robo','🤖','ロボ農夫',3,'gacha'],['mahou','🧙','畑のまほう使い',4,'gacha'],['unicorn','🦄','ユニコーン',4,'gacha'],
+ ['ayu','🐟','あゆ',1,'river'],['ebi','🦐','かわえび',1,'river'],['kaeru','🐸','かえる',1,'river'],['kani','🦀','さわがに',2,'river'],['kame','🐢','かめ',3,'river'],['wani','🐊','まぼろしのワニ',4,'river'],
+ ['nettai','🐠','ねったい魚',1,'sea'],['ika','🦑','いか',1,'sea'],['tako','🐙','たこ',2,'sea'],['fugu','🐡','ふぐ',2,'sea'],['same','🦈','さめ',3,'sea'],['iruka','🐬','いるか',3,'sea'],['kujira','🐋','くじら',4,'sea'],
+ ['ari','🐜','あり',1,'farm'],['mimizu','🪱','みみず',1,'farm'],['aomushi','🐛','あおむし',1,'farm'],['suzume','🐦','すずめ',1,'farm'],['hiyoko','🐤','ひよこ',1,'farm'],['nonezumi','🐭','のねずみ',2,'farm'],['nousagi','🐰','のうさぎ',2,'farm'],['tokage','🦎','とかげ',2,'farm'],['hebi','🐍','へび',3,'farm'],['koumori','🦇','こうもり',3,'farm'],['kujaku','🦚','くじゃく',4,'farm'],
+ ['tanuki','🦝','たぬき',1,'forest'],['skunk','🦨','スカンク',1,'forest'],['kabuto','🪲','かぶとむし',2,'forest'],['inoshishi','🐗','いのしし',2,'forest'],['saru','🐒','さる',2,'forest'],['beaver','🦫','ビーバー',2,'forest'],['ookami','🐺','おおかみ',3,'forest'],['washi','🦅','わし',3,'forest'],['namakemono','🦥','なまけもの',3,'forest'],['panda','🐼','パンダ',4,'forest'],['tora','🐯','とら',4,'forest'],
+ ['kamo','🦆','かも',1,'river'],['zarigani','🦞','ざりがに',1,'river'],['hakuchou','🦢','はくちょう',2,'river'],['kawauso','🦦','かわうそ',3,'river'],['flamingo','🦩','フラミンゴ',3,'river'],['kaba','🦛','かば',4,'river'],
+ ['kaigara','🐚','かいがら',1,'sea'],['kaki','🦪','かき',1,'sea'],['azarashi','🦭','あざらし',2,'sea'],['penguin','🐧','ペンギン',2,'sea'],['shiofuki','🐳','しおふきくじら',3,'sea'],['kubinaga','🦕','くびながりゅう',4,'sea'],['ningyo','🧜','にんぎょ',4,'sea'],
+ ['inu','🐕','いぬ',1,'gacha'],['neko','🐈','ねこ',1,'gacha'],['yagi','🐐','やぎ',1,'gacha'],['ondori','🐓','おんどり',1,'gacha'],['shichimen','🦃','しちめんちょう',2,'gacha'],['alpaca','🦙','アルパカ',2,'gacha'],['rakuda','🐫','らくだ',2,'gacha'],['kirin','🦒','きりん',3,'gacha'],['zou','🐘','ぞう',3,'gacha'],['lion','🦁','ライオン',3,'gacha'],['uchuu','🧑‍🚀','うちゅう農家',3,'gacha'],['ninja','🥷','にんじゃ農家',3,'gacha'],['yousei','🧚','畑のようせい',4,'gacha'],['ryuu','🐉','でんせつの竜',4,'gacha'],['kyouryuu','🦖','きょうりゅう',4,'gacha'],['ousama','🤴','農園の王さま',4,'gacha'],
+ ['s_spr','🐇','はるうさぎ',3,'spr'],['s_sum','🦜','なつのオウム',3,'sum'],['s_aut','👻','パンプキンおばけ',3,'aut'],['s_win','⛄','ゆきだるま',3,'win']
+].map(c=>({id:c[0],e:c[1],n:c[2],r:c[3],src:c[4]}));
+const RAR=['','N','R','SR','SSR'];
+const SRC={farm:'農園',forest:'森',gacha:'ガチャ',river:'川',sea:'海',spr:'春限定',sum:'夏限定',aut:'秋限定',win:'冬限定'};
+const PESTS=[['🐛','いもむし',3],['🐦','カラス',3],['🐀','ねずみ',4],['🦝','あらいぐま',4],['🐗','いのしし',5]];
+const SEASONS={spr:{n:'春のおはなみ祭',end:'5月31日'},sum:{n:'夏まつり',end:'8月31日'},aut:{n:'秋のしゅうかく祭',end:'11月30日'},win:{n:'冬の雪まつり',end:'2月末'}};
+const MON=new Date().getMonth()+1;
+const SEA=MON>=3&&MON<=5?'spr':MON>=6&&MON<=8?'sum':MON>=9&&MON<=11?'aut':'win';
+const MT={sci:['理科を8問正解する',8],soc:['社会を8問正解する',8],math:['算数を8問正解する',8],kanji:['漢字を8問正解する',8],combo:['5問れんぞくで正解する',5],harvest:['作物を5こしゅうかくする',5],pest:['害虫を1回おいはらう',1],fast:['はやく正解を5回する',5]};
+
+/* ===== 6年生の問題 ===== */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[R(0,a.length-1)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const num=x=>String(Math.round(x*100)/100);
+function F(n,d){const g=gcd(n,d);n/=g;d/=g;return d===1?String(n):`<span class="fr"><i>${n}</i><i>${d}</i></span>`}
+function mk(s,q,a,w,ex){
+  const set=[];w.forEach(x=>{x=String(x);if(x!==a&&!set.includes(x))set.push(x)});
+  let guard=0;
+  while(set.length<3&&guard++<40){const x=a.replace(/[\d.]+/,m=>num(+m+R(1,9)));if(x!==a&&!set.includes(x))set.push(x)}
+  return {s,q,a,c:shuffle([a,...shuffle(set).slice(0,3)]),ex};
+}
+const SV=(b,w=240,h=150)=>`<svg class="fig" viewBox="0 0 ${w} ${h}" role="img">${b}</svg><br>`;
+const MATH=[
+ ()=>{let a,b,c,d;do{b=R(2,9);a=R(1,b-1);d=R(2,9);c=R(1,d+3)}while(gcd(a,b)>1||gcd(c,d)>1||c===d);
+   return mk('math',`${F(a,b)} × ${F(c,d)} ＝ ？`,F(a*c,b*d),[F(a*d,b*c),F(a+c,b+d),F(a*c,b+d),F(a*c+1,b*d)],'分子どうし、分母どうしをかけて、約分する。')},
+ ()=>{let a,b,c,d;do{b=R(2,9);a=R(1,b-1);d=R(2,9);c=R(1,d+3)}while(gcd(a,b)>1||gcd(c,d)>1||c===d);
+   return mk('math',`${F(a,b)} ÷ ${F(c,d)} ＝ ？`,F(a*d,b*c),[F(a*c,b*d),F(b*c,a*d),F(a*d+1,b*c),F(a,b*c)],'わる数の逆数をかける。')},
+ ()=>{let a,b;do{b=R(3,9);a=R(2,b-1)}while(gcd(a,b)>1);
+   return mk('math',`${F(a,b)} の逆数は？`,F(b,a),[F(a,b),F(b+1,a),F(b,a+1),F(1,b)],'分子と分母を入れかえた数が逆数。')},
+ ()=>{let a,b;do{a=R(1,9);b=R(1,9)}while(a===b||gcd(a,b)>1);const k=R(2,9);
+   return mk('math',`${a*k} : ${b*k} を<br>かんたんな比にすると？`,`${a} : ${b}`,[`${b} : ${a}`,`${a+1} : ${b}`,`${a} : ${b+1}`,`${a*2} : ${b*2}`],`両方を ${k} でわる。`)},
+ ()=>{let a,b;do{a=R(2,9);b=R(2,9)}while(a===b||gcd(a,b)>1);const k=R(2,9);
+   return mk('math',`${a} : ${b} ＝ x : ${b*k}<br>x はいくつ？`,String(a*k),[a+k,b*k-(b-a),a*k+a,a*k-a],`${b} を ${k} 倍して ${b*k} だから、${a} も ${k} 倍する。`)},
+ ()=>{const r=R(3,10);return mk('math',SV(`<circle cx="120" cy="75" r="64"/><line x1="120" y1="75" x2="184" y2="75"/><text x="152" y="68" text-anchor="middle">${r}cm</text>`)+`半径 ${r}cm の円の面積は？<br><small>円周率は3.14</small>`,num(r*r*3.14)+'cm²',[num(2*r*3.14)+'cm²',num(r*3.14)+'cm²',num(4*r*r*3.14)+'cm²'],'円の面積 ＝ 半径 × 半径 × 3.14')},
+ ()=>{const d=R(5,12);return mk('math',SV(`<circle cx="120" cy="75" r="64"/><line x1="56" y1="75" x2="184" y2="75"/><text x="120" y="68" text-anchor="middle">${d}cm</text>`)+`直径 ${d}cm の円の<br>円周の長さは？<br><small>円周率は3.14</small>`,num(d*3.14)+'cm',[num(d*d*3.14)+'cm',num(d*d/4*3.14)+'cm',num(d*2*3.14)+'cm'],'円周 ＝ 直径 × 3.14')},
+ ()=>{const v=pick([30,40,45,50,60,80]),t=R(2,5),k=R(0,2);
+   if(k===0)return mk('math',`${v*t}km を ${t}時間で走る車の<br>速さは？`,`時速${v}km`,[`時速${v+5}km`,`時速${v-10}km`,`時速${v*2}km`],'速さ ＝ 道のり ÷ 時間');
+   if(k===1)return mk('math',`時速${v}km で ${t}時間走ると<br>何km進む？`,`${v*t}km`,[`${v+t}km`,`${v*(t+1)}km`,`${v*(t-1)}km`],'道のり ＝ 速さ × 時間');
+   return mk('math',`時速${v}km で ${v*t}km 進むには<br>何時間かかる？`,`${t}時間`,[`${t+1}時間`,`${t-1}時間`,`${t*2}時間`],'時間 ＝ 道のり ÷ 速さ')},
+ ()=>{const b=pick([200,400,500,800,1200,1500,2000]),p=pick([10,20,25,30,40,60,75]),k=R(0,2);
+   if(k===0)return mk('math',`${b}円の ${p}% は何円？`,`${b*p/100}円`,[`${num(b*p/1000)}円`,`${b-b*p/100}円`,`${b+p}円`],`${b} × ${p/100} で求める。`);
+   if(k===1)return mk('math',`定価 ${b}円の品物を<br>${p}%引きで買うと何円？`,`${b*(100-p)/100}円`,[`${b*p/100}円`,`${b-p}円`,`${b*(100+p)/100}円`],`${b} × ${(100-p)/100} で求める。`);
+   return mk('math',`${b}人のうち ${b*p/100}人は<br>全体の何%？`,`${p}%`,[`${p+10}%`,`${100-p}%`,`${p/10}%`],'くらべる量 ÷ もとにする量 × 100')},
+ ()=>{const x=R(2,12),a=R(2,9);if(R(0,1)){const b=R(1,20);return mk('math',`x × ${a} ＋ ${b} ＝ ${a*x+b}<br>x はいくつ？`,String(x),[x+1,x-1,x+2],`${a*x+b} − ${b} ＝ ${a*x}、${a*x} ÷ ${a} ＝ ${x}`)}
+   const b=R(1,Math.min(20,a*x-1));return mk('math',`x × ${a} − ${b} ＝ ${a*x-b}<br>x はいくつ？`,String(x),[x+1,x-1,x+2],`${a*x-b} ＋ ${b} ＝ ${a*x}、${a*x} ÷ ${a} ＝ ${x}`)},
+ ()=>{const a=R(2,9),x1=R(2,5),x2=R(6,12);return mk('math',`y は x に比例し、<br>x＝${x1} のとき y＝${a*x1}。<br>x＝${x2} のとき y は？`,String(a*x2),[a*x1+x2,a*x2+a,a*x2-a],`y ＝ ${a} × x の関係。`)},
+ ()=>{const k=pick([12,18,24,36,48,60]),ds=[2,3,4,6].filter(d=>k%d===0),x1=pick(ds),x2=pick(ds.filter(d=>d!==x1));
+   return mk('math',`y は x に反比例し、<br>x＝${x1} のとき y＝${k/x1}。<br>x＝${x2} のとき y は？`,String(k/x2),[num(k/x1*x2/x1),k/x2+1,k],`x × y ＝ ${k} で一定。`)},
+ ()=>{if(R(0,1)){const s=R(6,30),h=R(3,12);return mk('math',`底面積 ${s}cm²、高さ ${h}cm の<br>角柱の体積は？`,`${s*h}cm³`,[`${s+h}cm³`,`${num(s*h/2)}cm³`,`${s*h*2}cm³`],'角柱の体積 ＝ 底面積 × 高さ')}
+   const r=R(3,5),h=R(2,10);return mk('math',`底面の半径 ${r}cm、高さ ${h}cm の<br>円柱の体積は？<br><small>円周率は3.14</small>`,num(r*r*3.14*h)+'cm³',[num(2*r*3.14*h)+'cm³',num(r*3.14*h)+'cm³',num(r*r*h)+'cm³'],'円柱の体積 ＝ 半径 × 半径 × 3.14 × 高さ')},
+ (lo,hi)=>{const f=pick([
+   ['A・B・C・D の4人から<br>2人の係を選ぶ組み合わせは？','6通り',['12通り','8通り','4通り'],'AB・AC・AD・BC・BD・CD の6通り。'],
+   ['4人が1列にならぶ<br>ならび方は何通り？','24通り',['12通り','16通り','8通り'],'4 × 3 × 2 × 1 ＝ 24'],
+   ['1・2・3 のカード3まいで<br>できる3けたの整数は何通り？','6通り',['3通り','9通り','27通り'],'3 × 2 × 1 ＝ 6'],
+   ['5チームが総当たり戦をすると<br>試合は全部で何試合？','10試合',['20試合','25試合','5試合'],'5 × 4 ÷ 2 ＝ 10'],
+   ['コインを2回投げるとき<br>表と裏の出方は全部で何通り？','4通り',['2通り','3通り','6通り'],'表表・表裏・裏表・裏裏 の4通り。'],
+   ['正方形の対称の軸は何本？','4本',['2本','1本','8本'],'たて・横・ななめ2本。'],
+   ['長方形の対称の軸は何本？','2本',['4本','1本','0本'],'たてと横の2本。対角線は軸にならない。'],
+   ['正三角形の対称の軸は何本？','3本',['1本','2本','6本'],'それぞれの頂点を通る3本。'],
+   ['平行四辺形はどんな図形？','点対称だけ',['線対称だけ','線対称で点対称','どちらでもない'],'対角線の交わる点を中心に180°回すと重なる。'],
+   ['ひし形の対称の軸は何本？','2本',['4本','1本','0本'],'2本の対角線が対称の軸になる。'],
+   ['二等辺三角形の対称の軸は何本？','1本',['2本','3本','0本'],'頂点から底辺の真ん中を通る1本。'],
+   ['正五角形の対称の軸は何本？','5本',['10本','1本','0本'],'それぞれの頂点を通る5本。'],
+   ['正六角形の対称の軸は何本？','6本',['3本','12本','2本'],'頂点を通る3本と、辺の真ん中を通る3本。'],
+   ['正三角形はどんな図形？','線対称だけ',['点対称だけ','線対称で点対称','どちらでもない'],'180°回しても、もとの形に重ならない。'],
+   ['5, 7, 7, 8, 13 の中央値は？','7',['8','13','10'],'小さい順にならべた真ん中の値。'],
+   ['3, 4, 4, 4, 10 の平均値は？','5',['4','10','6'],'合計25 ÷ 5 ＝ 5'],
+   ['2, 3, 3, 5, 7 の最頻値は？','3',['5','4','2'],'いちばん多く出てくる値。'],
+   ['4, 6, 6, 9, 10 の中央値は？','6',['7','9','10'],'小さい順にならべた真ん中の値。'],
+   ['10, 20, 30, 40 の平均値は？','25',['20','30','100'],'合計100 ÷ 4 ＝ 25'],
+   ['2, 4, 6, 8 の中央値は？','5',['4','6','20'],'真ん中の2つ（4と6）の平均。']
+ ].slice(lo||0,hi||99));return mk('math',f[0],f[1],f[2],f[3])}
+ ,()=>{const k=R(0,2);
+   if(k===0){const d=2*R(2,10),r=d/2;return mk('math',SV(`<path d="M30 112 A90 90 0 0 1 210 112 Z"/><text x="120" y="134" text-anchor="middle">${d}cm</text>`)+`この半円の面積は？<br><small>円周率は3.14</small>`,num(r*r*3.14/2)+'cm²',[num(r*r*3.14)+'cm²',num(d*d*3.14/2)+'cm²',num(d*3.14/2)+'cm²'],'半径 × 半径 × 3.14 ÷ 2。半径は直径の半分。')}
+   if(k===1){const r=2*R(1,6);return mk('math',SV(`<path d="M65 126 L65 16 A110 110 0 0 1 175 126 Z"/><text x="120" y="145" text-anchor="middle">${r}cm</text>`)+`円を4等分した形の面積は？<br><small>円周率は3.14</small>`,num(r*r*3.14/4)+'cm²',[num(r*r*3.14)+'cm²',num(r*r*3.14/2)+'cm²',num(r*2*3.14/4)+'cm²'],'半径 × 半径 × 3.14 ÷ 4')}
+   const r=R(2,6),a=2*r;return mk('math',SV(`<rect x="45" y="10" width="130" height="130"/><circle cx="110" cy="75" r="65" fill="var(--card)"/><text x="183" y="80">${a}cm</text>`,250)+`正方形から円をのぞいた<br>色のついた部分の面積は？<br><small>円周率は3.14</small>`,num(a*a-r*r*3.14)+'cm²',[num(r*r*3.14)+'cm²',num(a*a)+'cm²',num(a*a-2*r*3.14)+'cm²'],`正方形 ${a}×${a} から、半径 ${r}cm の円の面積をひく。`)}
+ ,()=>{if(R(0,1)){const a=R(3,9),b=R(2,8),h=R(4,12);return mk('math',SV(`<path class="d" d="M50 120 L160 90 L240 90 M160 90 L160 20"/><path d="M50 120 L130 120 L50 50 Z"/><path class="n" d="M50 50 L160 20 L240 90 L130 120"/><text x="90" y="140" text-anchor="middle">${a}cm</text><text x="44" y="92" text-anchor="end">${b}cm</text><text x="196" y="122">${h}cm</text>`,270)+`底面が直角三角形の三角柱。<br>体積は？`,num(a*b/2*h)+'cm³',[num(a*b*h)+'cm³',num((a+b)*h)+'cm³',num(a*b/2+h)+'cm³'],`底面積 ${a}×${b}÷2 ＝ ${num(a*b/2)}、これに高さ ${h} をかける。`)}
+   const r=R(2,5),h=R(3,10);return mk('math',SV(`<path d="M60 30 L60 118 A60 16 0 0 0 180 118 L180 30"/><ellipse cx="120" cy="30" rx="60" ry="16"/><line x1="120" y1="30" x2="180" y2="30"/><text x="150" y="25" text-anchor="middle">${r}cm</text><text x="188" y="80">${h}cm</text>`,250)+`この円柱の体積は？<br><small>円周率は3.14</small>`,num(r*r*3.14*h)+'cm³',[num(2*r*3.14*h)+'cm³',num(r*r*h)+'cm³',num(r*r*3.14)+'cm³'],'半径 × 半径 × 3.14 × 高さ')}
+ ,()=>{const k=R(0,2),a=R(2,6),m=R(2,3);
+   const tri=(l,rt)=>SV(`<path d="M15 125 L75 125 L35 75 Z"/><path d="M110 135 L225 135 L148 40 Z"/><text x="45" y="143" text-anchor="middle">${l}</text><text x="167" y="150" text-anchor="middle">${rt}</text>`,240,155);
+   if(k===0)return mk('math',tri(a+'cm','x')+`右は、左の三角形の ${m}倍の拡大図。<br>x は何cm？`,`${a*m}cm`,[`${a+m}cm`,`${a*m*m}cm`,`${a*m+m}cm`],`対応する辺の長さも ${m}倍になる。`);
+   if(k===1)return mk('math',tri('x',a*m+'cm')+`左は、右の三角形の ${F(1,m)} の縮図。<br>x は何cm？`,`${a}cm`,[`${a*m*m}cm`,`${a*m-m}cm`,`${a+m}cm`],`対応する辺の長さも ${m} でわる。`);
+   const sc=pick([500,1000,2000,5000]),c=R(2,8);return mk('math',`縮尺 1 : ${sc} の地図で<br>${c}cm の道のりは、実際には何m？`,`${sc*c/100}m`,[`${sc*c}m`,`${sc*c/1000}m`,`${sc*c/10}m`],`${c} × ${sc} ＝ ${sc*c}cm ＝ ${sc*c/100}m`)}
+ ,()=>{const f=pick([
+   ['<rect x="70" y="25" width="100" height="100"/>','正方形','4本',['2本','1本','8本'],'たて・横・ななめ2本。'],
+   ['<rect x="40" y="35" width="160" height="80"/>','長方形','2本',['4本','1本','0本'],'たてと横の2本。'],
+   ['<polygon points="120,15 190,136 50,136"/>','正三角形','3本',['1本','2本','6本'],'それぞれの頂点を通る3本。'],
+   ['<polygon points="120,10 165,140 75,140"/>','二等辺三角形','1本',['2本','3本','0本'],'頂点から底辺の真ん中を通る1本。'],
+   ['<polygon points="120,12 205,75 120,138 35,75"/>','ひし形','2本',['4本','1本','0本'],'2本の対角線。'],
+   ['<polygon points="182,75 151,129 89,129 58,75 89,21 151,21"/>','正六角形','6本',['3本','12本','2本'],'頂点を通る3本と、辺の真ん中を通る3本。'],
+   ['<polygon points="45,120 165,120 195,30 75,30"/>','平行四辺形','0本',['2本','1本','4本'],'平行四辺形は点対称だが、線対称ではない。']
+ ]);return mk('math',SV(f[0])+`この図形（${f[1]}）の<br>対称の軸は何本？`,f[2],f[3],f[4])}
+];
+const YOMI=('宇宙:うちゅう,映画:えいが,延期:えんき,沿岸:えんがん,灰色:はいいろ,拡大:かくだい,革命:かくめい,内閣:ないかく,分割:ぶんかつ,株式:かぶしき,干潮:かんちょう,巻末:かんまつ,看護:かんご,簡単:かんたん,危険:きけん,机上:きじょう,発揮:はっき,貴重:きちょう,疑問:ぎもん,吸収:きゅうしゅう,供給:きょうきゅう,胸囲:きょうい,郷土:きょうど,勤務:きんむ,筋肉:きんにく,系統:けいとう,敬語:けいご,警察:けいさつ,劇場:げきじょう,激流:げきりゅう,権利:けんり,憲法:けんぽう,呼吸:こきゅう,誤解:ごかい,皇后:こうごう,孝行:こうこう,紅茶:こうちゃ,降水:こうすい,鋼鉄:こうてつ,穀物:こくもつ,骨折:こっせつ,困難:こんなん,砂糖:さとう,座席:ざせき,裁判:さいばん,対策:たいさく,冊子:さっし,養蚕:ようさん,至急:しきゅう,姿勢:しせい,視野:しや,歌詞:かし,雑誌:ざっし,磁石:じしゃく,若者:わかもの,樹木:じゅもく,収納:しゅうのう,宗教:しゅうきょう,就職:しゅうしょく,群衆:ぐんしゅう,縦断:じゅうだん,縮小:しゅくしょう,熟語:じゅくご,単純:たんじゅん,処理:しょり,署名:しょめい,諸国:しょこく,除外:じょがい,将来:しょうらい,障害:しょうがい,蒸発:じょうはつ,垂直:すいちょく,推理:すいり,寸法:すんぽう,聖火:せいか,誠実:せいじつ,宣伝:せんでん,専門:せんもん,温泉:おんせん,善悪:ぜんあく,演奏:えんそう,創造:そうぞう,装置:そうち,地層:ちそう,操作:そうさ,貯蔵:ちょぞう,内臓:ないぞう,存在:そんざい,尊敬:そんけい,探検:たんけん,誕生:たんじょう,段落:だんらく,価値:かち,忠告:ちゅうこく,著者:ちょしゃ,庁舎:ちょうしゃ,頂上:ちょうじょう,潮風:しおかぜ,賃金:ちんぎん,展覧:てんらん,討論:とうろん,政党:せいとう,牛乳:ぎゅうにゅう,納税:のうぜい,頭脳:ずのう,派手:はで,背景:はいけい,俳句:はいく,班長:はんちょう,否定:ひてい,批判:ひはん,秘密:ひみつ,奮起:ふんき,陛下:へいか,片道:かたみち,宝物:たからもの,訪問:ほうもん,亡命:ぼうめい,枚数:まいすう,密林:みつりん,同盟:どうめい,模型:もけい,郵便:ゆうびん,優勝:ゆうしょう,翌日:よくじつ,裏側:うらがわ,法律:ほうりつ,臨時:りんじ,朗読:ろうどく,論理:ろんり,'
+ +'胃腸:いちょう,異常:いじょう,異国:いこく,遺産:いさん,遺伝:いでん,地域:ちいき,区域:くいき,宇宙船:うちゅうせん,映像:えいぞう,反映:はんえい,延長:えんちょう,沿線:えんせん,恩人:おんじん,恩返し:おんがえし,自我:じが,拡張:かくちょう,改革:かいかく,革新:かくしん,天守閣:てんしゅかく,割合:わりあい,役割:やくわり,切り株:きりかぶ,干物:ひもの,巻物:まきもの,看板:かんばん,看病:かんびょう,簡潔:かんけつ,危機:きき,指揮:しき,貴族:きぞく,容疑:ようぎ,吸引:きゅういん,提供:ていきょう,供える:そなえる,度胸:どきょう,故郷:こきょう,郷里:きょうり,通勤:つうきん,出勤:しゅっきん,筋道:すじみち,鉄筋:てっきん,家系:かけい,太陽系:たいようけい,敬意:けいい,敬老:けいろう,警告:けいこく,警備:けいび,警報:けいほう,劇団:げきだん,演劇:えんげき,感激:かんげき,激戦:げきせん,急激:きゅうげき,乗車券:じょうしゃけん,入場券:にゅうじょうけん,絹糸:きぬいと,人権:じんけん,権力:けんりょく,憲章:けんしょう,資源:しげん,起源:きげん,電源:でんげん,厳重:げんじゅう,厳守:げんしゅ,自己:じこ,利己:りこ,点呼:てんこ,誤字:ごじ,誤差:ごさ,親孝行:おやこうこう,天皇:てんのう,皇居:こうきょ,紅白:こうはく,口紅:くちべに,降下:こうか,以降:いこう,鉄鋼:てっこう,時刻:じこく,深刻:しんこく,穀倉:こくそう,雑穀:ざっこく,骨格:こっかく,鉄骨:てっこつ,砂場:すなば,砂鉄:さてつ,土砂:どしゃ,星座:せいざ,経済:けいざい,返済:へんさい,裁判所:さいばんしょ,政策:せいさく,別冊:べっさつ,私立:しりつ,私鉄:してつ,視線:しせん,視力:しりょく,無視:むし,作詞:さくし,品詞:ひんし,日誌:にっし,磁気:じき,磁針:じしん,発射:はっしゃ,注射:ちゅうしゃ,反射:はんしゃ,取捨:しゅしゃ,縮尺:しゅくしゃく,若葉:わかば,若手:わかて,果樹:かじゅ,街路樹:がいろじゅ,収入:しゅうにゅう,回収:かいしゅう,宗派:しゅうは,就任:しゅうにん,就学:しゅうがく,観衆:かんしゅう,公衆:こうしゅう,大衆:たいしゅう,従業員:じゅうぎょういん,服従:ふくじゅう,縦笛:たてぶえ,操縦:そうじゅう,短縮:たんしゅく,圧縮:あっしゅく,成熟:せいじゅく,未熟:みじゅく,純白:じゅんぱく,純金:じゅんきん,処分:しょぶん,対処:たいしょ,消防署:しょうぼうしょ,部署:ぶしょ,諸島:しょとう,解除:かいじょ,除雪:じょせつ,承知:しょうち,伝承:でんしょう,承認:しょうにん,将軍:しょうぐん,主将:しゅしょう,負傷:ふしょう,傷口:きずぐち,故障:こしょう,保障:ほしょう,蒸気:じょうき,方針:ほうしん,針金:はりがね,仁義:じんぎ,推進:すいしん,推定:すいてい,推測:すいそく,寸前:すんぜん,盛大:せいだい,全盛:ぜんせい,神聖:しんせい,聖書:せいしょ,誠意:せいい,宣言:せんげん,専用:せんよう,専念:せんねん,源泉:げんせん,洗面:せんめん,洗顔:せんがん,染色:せんしょく,伝染:でんせん,金銭:きんせん,小銭:こぜに,改善:かいぜん,善意:ぜんい,最善:さいぜん,合奏:がっそう,独奏:どくそう,車窓:しゃそう,同窓会:どうそうかい,窓口:まどぐち,創作:そうさく,創立:そうりつ,服装:ふくそう,包装:ほうそう,装備:そうび,高層:こうそう,断層:だんそう,体操:たいそう,冷蔵庫:れいぞうこ,心臓:しんぞう,保存:ほぞん,存分:ぞんぶん,尊重:そんちょう,退場:たいじょう,引退:いんたい,後退:こうたい,住宅:じゅうたく,自宅:じたく,帰宅:きたく,担任:たんにん,分担:ぶんたん,負担:ふたん,探求:たんきゅう,探知:たんち,階段:かいだん,手段:しゅだん,値段:ねだん,暖流:だんりゅう,温暖:おんだん,数値:すうち,値上げ:ねあげ,宙返り:ちゅうがえり,忠実:ちゅうじつ,忠誠:ちゅうせい,著名:ちょめい,著作:ちょさく,県庁:けんちょう,気象庁:きしょうちょう,山頂:さんちょう,頂点:ちょうてん,大腸:だいちょう,小腸:しょうちょう,満潮:まんちょう,風潮:ふうちょう,運賃:うんちん,家賃:やちん,頭痛:ずつう,苦痛:くつう,腹痛:ふくつう,敵意:てきい,強敵:きょうてき,天敵:てんてき,発展:はってん,展示:てんじ,展開:てんかい,検討:けんとう,討議:とうぎ,野党:やとう,糖分:とうぶん,果糖:かとう,難問:なんもん,災難:さいなん,非難:ひなん,母乳:ぼにゅう,乳歯:にゅうし,確認:かくにん,認識:にんしき,納得:なっとく,納品:のうひん,首脳:しゅのう,大脳:だいのう,派生:はせい,立派:りっぱ,特派員:とくはいん,拝見:はいけん,参拝:さんぱい,背中:せなか,背骨:せぼね,背後:はいご,肺活量:はいかつりょう,俳優:はいゆう,俳人:はいじん,今晩:こんばん,晩年:ばんねん,否決:ひけつ,安否:あんぴ,批評:ひひょう,秘書:ひしょ,神秘:しんぴ,秘伝:ひでん,土俵:どひょう,米俵:こめだわら,空腹:くうふく,満腹:まんぷく,興奮:こうふん,奮発:ふんぱつ,並木:なみき,並列:へいれつ,開閉:かいへい,閉会:へいかい,密閉:みっぺい,破片:はへん,片方:かたほう,補足:ほそく,補助:ほじょ,候補:こうほ,夕暮れ:ゆうぐれ,国宝:こくほう,宝石:ほうせき,来訪:らいほう,死亡:しぼう,忘年会:ぼうねんかい,鉄棒:てつぼう,棒読み:ぼうよみ,大枚:たいまい,開幕:かいまく,字幕:じまく,幕府:ばくふ,精密:せいみつ,密接:みっせつ,加盟:かめい,連盟:れんめい,規模:きぼ,模様:もよう,模造紙:もぞうし,通訳:つうやく,郵送:ゆうそう,優先:ゆうせん,預金:よきん,幼児:ようじ,幼虫:ようちゅう,食欲:しょくよく,意欲:いよく,翌朝:よくあさ,翌年:よくねん,混乱:こんらん,反乱:はんらん,産卵:さんらん,卵黄:らんおう,回覧:かいらん,一覧:いちらん,観覧車:かんらんしゃ,裏庭:うらにわ,表裏:ひょうり,規律:きりつ,自律:じりつ,臨海:りんかい,明朗:めいろう,議論:ぎろん,結論:けつろん,理論:りろん,降りる:おりる,割る:わる,刻む:きざむ,困る:こまる,裁く:さばく,探る:さぐる,探す:さがす,盛ん:さかん,垂れる:たれる,尊い:とうとい,難しい:むずかしい,痛める:いためる,奮う:ふるう,閉める:しめる,映る:うつる,延びる:のびる,沿う:そう,吸う:すう,呼ぶ:よぶ,誤る:あやまる,済む:すむ,至る:いたる,就く:つく,縮める:ちぢめる,除く:のぞく,傷つく:きずつく,洗う:あらう,染まる:そまる,奏でる:かなでる,装う:よそおう,退ける:しりぞける,担う:になう,頂く:いただく,届く:とどく,納める:おさめる,背く:そむく,並べる:ならべる,暮れる:くれる,訪れる:おとずれる,乱す:みだす,優しい:やさしい,優れる:すぐれる,亡くなる:なくなる,蒸す:むす,臨む:のぞむ,我:われ,穴:あな,絹:きぬ,源:みなもと,骨:ほね,砂:すな,針:はり,傷:きず,窓:まど,卵:たまご,腹:はら,胸:むね,筋:すじ,舌:した,裏:うら,幕:まく,棒:ぼう,宝:たから,株:かぶ,机:つくえ,姿:すがた,泉:いずみ,蚕:かいこ,俵:たわら,潮:しお,頂:いただき,厳しい:きびしい,認める:みとめる,拝む:おがむ,補う:おぎなう,暮らす:くらす,預ける:あずける,幼い:おさない,乱れる:みだれる,従う:したがう,捨てる:すてる,染める:そめる,届ける:とどける,閉じる:とじる,並ぶ:ならぶ,忘れる:わすれる,暖かい:あたたかい,訪ねる:たずねる,疑う:うたがう,縮む:ちぢむ,退く:しりぞく').split(',').map(x=>x.split(':'));
+const KAKI=[
+ ['【うちゅう】飛行士になりたい','宇宙',['字宙','宇由','字由']],['【かんたん】な問題','簡単',['間単','簡短','完単']],['【きけん】な場所に近づかない','危険',['危検','危験','気険']],
+ ['【せんもん】家に話を聞く','専門',['専問','先門','専間']],['妹の【たんじょう】日','誕生',['延生','誕性','談生']],['【ゆうびん】局に行く','郵便',['郵使','垂便','郵更']],
+ ['先生を【そんけい】する','尊敬',['尊警','存敬','尊径']],['【けいさつ】官にあこがれる','警察',['敬察','警祭','驚察']],['友だちの家を【ほうもん】する','訪問',['訪門','方問','放問']],
+ ['二人だけの【ひみつ】','秘密',['必密','秘蜜','非密']],['ピアノを【えんそう】する','演奏',['演送','円奏','演層']],['地図を【しゅくしょう】する','縮小',['宿小','縮少','縮省']],
+ ['写真を【かくだい】する','拡大',['広大','各大','拡代']],['【じしゃく】のN極とS極','磁石',['滋石','磁尺','慈石']],['【きちょう】な体験','貴重',['貴長','基重','貴張']],
+ ['【ぎもん】に思う','疑問',['疑門','義問','議問']],['深く【こきゅう】する','呼吸',['呼級','呼及','乎吸']],['胃や腸などの【ないぞう】','内臓',['内蔵','内増','内像']],
+ ['食料を【ちょぞう】する','貯蔵',['貯臓','貯造','著蔵']],['【すいちょく】な線を引く','垂直',['郵直','垂植','水直']],['【しょうらい】の夢','将来',['相来','将未','賞来']],
+ ['紙の【うらがわ】','裏側',['裏則','裏測','理側']],['【こんなん】を乗りこえる','困難',['因難','困離','混難']],['詩を【ろうどく】する','朗読',['郎読','朗続','老読']],
+ ['機械を【そうさ】する','操作',['捜査','操査','走作']],['税金を【おさ】める','納',['収','治','修']],['会社に【つと】める','勤',['努','務','勉']],
+ ['【あたた】かい春の日','暖',['温','熱','援']],['鏡にすがたが【うつ】る','映',['写','移','英']],['的に矢を【い】る','射',['居','要','入']],
+ ['布を青く【そ】める','染',['初','洗','沈']],['ごみを【す】てる','捨',['拾','舎','借']],['約束を【わす】れる','忘',['亡','望','忙']],
+ ['荷物を【あず】ける','預',['予','頂','領']],['説明を【おぎな】う','補',['捕','保','舗']],['【きび】しい寒さ','厳',['敬','源','権']],
+ ['【わか】い人たち','若',['苦','芳','右']],['【おさな】いころの思い出','幼',['幻','功','切']],['手紙を【とど】ける','届',['屈','屋','居']],
+ ['川の【みなもと】','源',['原','元','厳']],['電車の【ざせき】','座席',['座度','産席','座庶']],['米や麦などの【こくもつ】','穀物',['殻物','告物','穀仏']],
+ ['【ぎゅうにゅう】を飲む','牛乳',['牛孔','午乳','牛入']],['【はいく】を作る','俳句',['排句','俳区','輩句']]
+ ,['世界【いさん】に登録される','遺産',['遣産','遺参','異産']],['【ちいき】の祭りに参加する','地域',['地城','地或','知域']],['試合を【えんちょう】する','延長',['廷長','延張','遠長']],
+ ['政治を【かいかく】する','改革',['改格','開革','改確']],['【わりあい】を求める','割合',['割会','害合','割相']],['オーケストラを【しき】する','指揮',['指輝','支揮','指起']],
+ ['【こきょう】に帰る','故郷',['古郷','故響','故卿']],['【かんげき】して泣く','感激',['感劇','観激','感撃']],['基本的【じんけん】','人権',['人券','人憲','仁権']],
+ ['【しげん】を大切にする','資源',['資原','資元','貸源']],['【じこく】表を見る','時刻',['時国','時告','時則']],['【けいざい】の勉強','経済',['径済','経斉','軽済']],
+ ['ロケットを【はっしゃ】する','発射',['発車','発謝','発捨']],['【しゅうにゅう】がふえる','収入',['集入','修入','収人']],['飛行機を【そうじゅう】する','操縦',['操従','燥縦','操銃']],
+ ['時計が【こしょう】する','故障',['故章','古障','故傷']],['【じょうき】機関車','蒸気',['上気','蒸記','乗気']],['独立を【せんげん】する','宣言',['宜言','先言','宣源']],
+ ['生活を【かいぜん】する','改善',['改全','開善','改然']],['【れいぞうこ】に入れる','冷蔵庫',['冷臓庫','冷増庫','令蔵庫']],['意見を【そんちょう】する','尊重',['尊長','存重','尊調']],
+ ['クラスの【たんにん】','担任',['但任','担認','単任']],['【ねだん】が高い','値段',['値断','根段','値談']],['山の【ちょうじょう】','頂上',['項上','頂場','町上']],
+ ['【ずつう】がする','頭痛',['頭通','図痛','頭病']],['作品を【てんじ】する','展示',['典示','展字','点示']],['安全を【かくにん】する','確認',['確任','角認','確忍']],
+ ['【はいゆう】になりたい','俳優',['排優','俳憂','敗優']],['【こくほう】の建物','国宝',['国法','国豊','国室']],['委員の【こうほ】に選ばれる','候補',['侯補','候捕','校補']],
+ ['花の【もよう】をえがく','模様',['模洋','漠様','摸用']],['【ぎろん】を重ねる','議論',['義論','議輪','儀論']],['【たまご】を割る','卵',['卯','印','柳']],['【すな】浜を歩く','砂',['秒','妙','抄']]
+];
+const term=(L,t)=>{const h=Math.ceil(L.length/2);return t==='1'?L.slice(0,h):t==='2'?L.slice(h):L};
+function qKanji(t){if(t!=='1'&&t!=='2')t=Math.random()<.5?'1':'2';const q=qKanji0(t);q.u='k:'+t;return q}
+function qKanji0(t){
+  if(Math.random()<.45){const k=pick(term(KAKI,t));return mk('kanji',k[0].replace('【','<u>').replace('】','</u>')+'<br><small>線の部分を漢字にすると？</small>',k[1],k[2],'「'+k[0].replace(/【.*】/,k[1])+'」と書く。'+(KEX[k[1]]||''))}
+  const y=pick(term(YOMI,t)),len=y[1].length;
+  let pool=YOMI.filter(o=>o[1]!==y[1]&&Math.abs(o[1].length-len)<=1).map(o=>o[1]);
+  return mk('kanji',`「${y[0]}」<br><small>読み方は？</small>`,y[1],shuffle(pool).slice(0,3),`「${y[0]}」は「${y[1]}」と読む。`);
+}
+// 算数の単元: id, 名前, [問題の番号, (決まった問題のはんい)]
+const UNITS=[['taishou','対称な図形',[[13,5,14],[17],[17]]],['moji','文字と式',[[9]]],['kake','分数のかけ算',[[0],[2]]],['wari','分数のわり算',[[1]]],['hi','比',[[3],[4]]],
+ ['kakudai','拡大図と縮図',[[16]]],['en','円の面積',[[5],[6],[14],[14]]],['taiseki','角柱と円柱の体積',[[12],[15],[15]]],['hirei','比例と反比例',[[10],[11]]],['narabe','ならべ方と組み合わせ方',[[13,0,5]]],['data','データの調べ方',[[13,14,20]]],['fuku','5年の復習（速さ・割合）',[[7],[8]]]];
+function mathQ(u){const U=UNITS.find(x=>x[0]===u)||pick(UNITS),g=pick(U[2]),q=MATH[g[0]](g[1],g[2]);q.u='m:'+U[0];return q}
+/* ===== 理科・社会（単元ごと）: 問題|正解|まちがい×3 ===== */
+const FIXQ={s:['理科','sci',[
+['moe','ものの燃え方',`ものが燃えるのに必要な気体は？|酸素|二酸化炭素|ちっ素|水素
+空気中にいちばん多くふくまれる気体は？|ちっ素|酸素|二酸化炭素|水素
+空気中の酸素の体積の割合は約何%？|約21%|約78%|約50%|約1%
+ろうそくが燃えたあとにふえる気体は？|二酸化炭素|酸素|ちっ素|水素
+二酸化炭素にふれると白くにごる液は？|石灰水|食塩水|さとう水|ヨウ素液
+びんの中でろうそくを燃やし続けるには？|空気が入れかわるようにする|ふたをしっかりしめる|びんを冷やす|びんを暗くする
+気体検知管で調べられるものは？|酸素や二酸化炭素の割合|気体の重さ|気体の色|気体の温度`],
+['karada','人や動物の体',`吸う空気より、はき出した息に多い気体は？|二酸化炭素|酸素|ちっ素|水素
+空気中の酸素を血液に取り入れる臓器は？|肺|胃|かん臓|じん臓
+食べ物を体に吸収されやすいものに変える液を何という？|消化液|血液|石灰水|ヨウ素液
+養分をおもに吸収する臓器は？|小腸|胃|大腸|心臓
+血液を全身に送り出す臓器は？|心臓|肺|かん臓|小腸
+血液中の不要なものをこし出して、にょうをつくる臓器は？|じん臓|かん臓|胃|肺
+吸収した養分をたくわえる臓器は？|かん臓|じん臓|心臓|肺
+でんぷんがあるかを調べる薬品は？|ヨウ素液|石灰水|食塩水|炭酸水
+だ液はでんぷんをどうする？|別のものに変える|ふやす|固める|色をつける`],
+['shokubutsu','植物のつくりとはたらき',`植物の葉に日光が当たるとできる養分は？|でんぷん|食塩|しぼう|鉄
+根から取り入れた水が、葉から水蒸気として出ていくことを何という？|蒸散|消化|呼吸|発芽
+水蒸気が出ていく、葉の小さな穴を何という？|気孔|花粉|子葉|根毛
+植物に日光が当たると、取り入れる気体は？|二酸化炭素|酸素|ちっ素|水素
+植物に日光が当たると、出す気体は？|酸素|二酸化炭素|ちっ素|水素
+ヨウ素液をでんぷんにつけると何色になる？|青むらさき色|赤色|黄色|白色
+根から取り入れた水は、植物の体のどこを通る？|根・くき・葉にある決まった通り道|葉の表面だけ|花の中だけ|通り道はない`],
+['seibutsu','生物どうしのつながり',`生物どうしの「食べる・食べられる」のつながりを何という？|食物連さ|蒸散|消化|発電
+食物連さのはじまりになる生物は？|植物|肉食動物|草食動物|人
+池の水の中の小さな生物を観察する道具は？|けんび鏡|望遠鏡|温度計|方位磁針
+動物が呼吸で取り入れる酸素をつくり出しているのは？|植物|動物|岩石|水
+メダカは池の中で何を食べている？|水中の小さな生物|大きな魚|石|空気
+人は呼吸で何を取り入れ、何を出している？|酸素を取り入れ二酸化炭素を出す|二酸化炭素を取り入れ酸素を出す|ちっ素を取り入れ酸素を出す|何も出さない`],
+['tsuki','月と太陽',`月が光って見えるのはなぜ？|太陽の光を反射しているから|自分で光を出しているから|地球が光を出しているから|星の光を集めているから
+月の形が日によって変わって見えるのはなぜ？|月と太陽の位置関係が変わるから|月の大きさが変わるから|月がけずれるから|雲にかくれるから
+満月のとき、月はどこにある？|地球をはさんで太陽の反対側|太陽と同じ方向|太陽のすぐ横|北の空
+新月のとき、月は地球から見てどこにある？|太陽と同じ方向|太陽の反対側|真北|真南
+月の表面にある円形のくぼみを何という？|クレーター|プレート|カルデラ|オアシス
+月の光っている側には、いつも何がある？|太陽|地球|北極星|金星
+自分で光を出しているのは？|太陽|月|地球|月と地球`],
+['suiyoueki','水よう液の性質',`青色リトマス紙を赤色に変える水よう液は何性？|酸性|アルカリ性|中性|どれでもない
+赤色リトマス紙を青色に変える水よう液は何性？|アルカリ性|酸性|中性|どれでもない
+食塩水は何性？|中性|酸性|アルカリ性|強い酸性
+炭酸水にとけている気体は？|二酸化炭素|酸素|ちっ素|水素
+塩酸にアルミニウムを入れるとどうなる？|あわを出してとける|何も起こらない|大きくなる|青くなる
+次のうち酸性の水よう液は？|塩酸|石灰水|食塩水|アンモニア水
+次のうちアルカリ性の水よう液は？|石灰水|塩酸|炭酸水|食塩水
+水よう液のにおいを調べるときは？|手であおいでかぐ|鼻を近づけて深く吸う|なめてみる|火に近づける
+炭酸水を熱して水を蒸発させると？|何も残らない|白い固体が残る|黒い固体が残る|青い固体が残る`],
+['tochi','土地のつくりと変化',`地層の中に残った、生物の体やあしあとを何という？|化石|火山灰|れき|断層
+流れる水のはたらきでできた地層のつぶの特ちょうは？|丸みがある|角ばっている|すべて同じ大きさ|とう明
+火山のはたらきでできた地層にふくまれるものは？|火山灰|貝がら|丸いれき|どろだけ
+れき・砂・どろのうち、つぶがいちばん大きいのは？|れき|砂|どろ|どれも同じ
+砂が固まってできた岩石は？|砂岩|でい岩|れき岩|よう岩
+どろが固まってできた岩石は？|でい岩|砂岩|れき岩|花こう岩
+地震のときに土地がずれてできるものを何という？|断層|地層|化石|火口`],
+['teko','てこのはたらき',`てこで、棒を支える点を何という？|支点|力点|作用点|中点
+てこで、力を加える点を何という？|力点|支点|作用点|中点
+てこで、ものに力がはたらく点を何という？|作用点|支点|力点|頂点
+小さな力で重いものを持ち上げるには、力点を支点から？|遠くする|近くする|同じ位置にする|関係ない
+てこがつり合うときのきまりは？|重さ×支点からのきょりが左右で等しい|重さが左右で等しい|支点からのきょりが左右で等しい|おもりの数が左右で等しい
+左のうでの3の位置に20g。右のうでの2の位置に何gでつり合う？|30g|20g|40g|60g
+左のうでの4の位置に30g。右のうでの6の位置に何gでつり合う？|20g|30g|45g|120g
+支点が力点と作用点の間にある道具は？|はさみ|ピンセット|せんぬき|トング
+力点が支点と作用点の間にある道具は？|ピンセット|はさみ|せんぬき|くぎぬき`],
+['denki','電気の利用',`手回し発電機は何をする道具？|電気をつくる|電気をためる|電気を消す|磁石をつくる
+電気をためることができるものは？|コンデンサー|豆電球|モーター|スイッチ
+光電池に強い光を当てると、電流は？|大きくなる|小さくなる|変わらない|流れなくなる
+同じ量の電気で長く光るのは？|発光ダイオード|豆電球|どちらも同じ|どちらも光らない
+電熱線に電流を流すとどうなる？|発熱する|冷える|磁石になる|とける
+電気を音に変えている道具は？|電子オルゴール|アイロン|せん風機|かい中電灯
+電気を回る動きに変えている道具は？|モーター|電熱線|発光ダイオード|コンデンサー
+条件に合わせて機械を動かす命令をつくることを何という？|プログラミング|リサイクル|コンデンサー|発電`]
+]],h:['社会','soc',[
+['kenpo','日本国憲法',`日本国憲法の三つの原則にふくまれないものは？|三権分立|国民主権|基本的人権の尊重|平和主義
+国の政治のあり方を最終的に決める権利が国民にあることを何という？|国民主権|平和主義|三権分立|地方自治
+日本国憲法で、天皇は日本国の何とされている？|象徴|元首|首相|主権者
+戦争をしないことを定めているのは憲法第何条？|第9条|第1条|第25条|第96条
+日本国憲法が公布されたのは何年？|1946年|1945年|1947年|1951年
+日本国憲法が施行された5月3日は何の日？|憲法記念日|文化の日|建国記念の日|昭和の日
+国民の三つの義務にふくまれないものは？|選挙に行く義務|子どもに教育を受けさせる義務|働く義務|税金を納める義務
+選挙権が認められるのは何才から？|18才|20才|16才|25才`],
+['seiji','国の政治のしくみ',`法律をつくる機関は？|国会|内閣|裁判所|都道府県
+国会を構成する二つの議院は？|衆議院と参議院|衆議院と貴族院|参議院と内閣|上院と下院
+内閣の最高責任者は？|内閣総理大臣|天皇|最高裁判所長官|衆議院議長
+法律にもとづいて争いを解決する機関は？|裁判所|国会|内閣|市役所
+国会・内閣・裁判所が権力を分け合うしくみを何という？|三権分立|国民主権|地方自治|平和主義
+国民が裁判に参加する制度は？|裁判員制度|国民投票|国民審査|情報公開制度
+内閣総理大臣を指名するのは？|国会|天皇|裁判所|都道府県知事
+国の予算を話し合って決めるのは？|国会|裁判所|銀行|市役所
+衆議院議員の任期は？|4年|6年|3年|2年
+参議院議員の任期は？|6年|4年|3年|2年`],
+['jomon','縄文〜古墳時代',`縄文時代の人々が使った、縄目の模様の土器は？|縄文土器|弥生土器|はにわ|銅たく
+縄文時代の大きな集落のあとが見つかった青森県の遺跡は？|三内丸山遺跡|吉野ヶ里遺跡|登呂遺跡|板付遺跡
+米づくりが広まった時代は？|弥生時代|縄文時代|古墳時代|奈良時代
+邪馬台国の女王は？|卑弥呼|推古天皇|紫式部|北条政子
+佐賀県にある弥生時代の大きな集落のあとは？|吉野ヶ里遺跡|三内丸山遺跡|大仙古墳|平城京
+日本最大の古墳は？|大仙（仁徳陵）古墳|高松塚古墳|稲荷山古墳|石舞台古墳
+古墳のまわりにならべられた土の焼き物は？|はにわ|土ぐう|銅鏡|かわら
+大陸から移り住み、技術や文化を伝えた人々を何という？|渡来人|防人|遣唐使|武士`],
+['asuka','飛鳥・奈良時代',`十七条の憲法を定めた人物は？|聖徳太子|中大兄皇子|聖武天皇|鑑真
+聖徳太子が建てたとされる奈良県の寺は？|法隆寺|東大寺|唐招提寺|金閣
+聖徳太子が隋に送った使いは？|遣隋使|遣唐使|防人|朝鮮通信使
+中大兄皇子らが蘇我氏をたおして始めた改革は？|大化の改新|明治維新|建武の新政|享保の改革
+710年に奈良につくられた都は？|平城京|平安京|藤原京|長岡京
+東大寺の大仏をつくらせた天皇は？|聖武天皇|天智天皇|桓武天皇|推古天皇
+大仏づくりに協力した僧は？|行基|鑑真|空海|最澄
+唐から来日し、唐招提寺を開いた僧は？|鑑真|行基|雪舟|ザビエル
+聖武天皇の持ち物などが納められている建物は？|正倉院|法隆寺|平等院|銀閣`],
+['heian','平安時代',`794年に京都につくられた都は？|平安京|平城京|長岡京|藤原京
+むすめを天皇のきさきにして大きな力をもった貴族は？|藤原道長|平清盛|源頼朝|菅原道真
+「源氏物語」を書いたのは？|紫式部|清少納言|小野妹子|北条政子
+「枕草子」を書いたのは？|清少納言|紫式部|紀貫之|卑弥呼
+平安時代に漢字からつくられた日本独自の文字は？|かな文字|ローマ字|点字|くさび形文字
+平安時代の貴族のやしきのつくりは？|寝殿造|書院造|合掌造|校倉造
+武士として初めて太政大臣になったのは？|平清盛|源頼朝|足利尊氏|源義経
+平安時代に生まれた日本風の文化を何という？|国風文化|天平文化|元禄文化|南蛮文化`],
+['kamakura','鎌倉・室町時代',`鎌倉幕府を開いたのは？|源頼朝|源義経|足利尊氏|平清盛
+将軍と御家人の、土地を仲立ちとした関係は？|ご恩と奉公|参勤交代|楽市・楽座|刀狩
+壇ノ浦で平氏をほろぼした武将は？|源義経|源頼朝|北条時宗|足利義満
+元がせめてきたときの執権は？|北条時宗|北条政子|源頼朝|足利義政
+元軍が二度せめてきたできごとは？|元寇|応仁の乱|承久の乱|関ヶ原の戦い
+室町幕府を開いたのは？|足利尊氏|足利義満|足利義政|源頼朝
+金閣を建てたのは？|足利義満|足利義政|足利尊氏|藤原頼通
+銀閣を建てたのは？|足利義政|足利義満|織田信長|平清盛
+すみ絵（水墨画）を大成した人物は？|雪舟|世阿弥|歌川広重|千利休
+観阿弥・世阿弥が大成した芸能は？|能|歌舞伎|人形浄瑠璃|落語`],
+['sengoku','戦国・安土桃山時代',`1543年に種子島に伝わったものは？|鉄砲|キリスト教|活版印刷|時計
+日本にキリスト教を伝えたのは？|フランシスコ・ザビエル|ペリー|鑑真|マルコ・ポーロ
+長篠の戦いで鉄砲を使って勝ったのは？|織田信長|武田信玄|上杉謙信|今川義元
+織田信長が安土で行った、商工業をさかんにする政策は？|楽市・楽座|検地|刀狩|参勤交代
+全国を統一したのは？|豊臣秀吉|織田信長|明智光秀|武田信玄
+豊臣秀吉が田畑の広さや収かく高を調べさせたことを何という？|検地|刀狩|楽市・楽座|鎖国
+百姓から武器を取り上げた政策は？|刀狩|検地|参勤交代|廃藩置県
+本能寺で織田信長をおそったのは？|明智光秀|豊臣秀吉|徳川家康|石田三成`],
+['edo','江戸時代',`江戸幕府を開いたのは？|徳川家康|徳川家光|徳川吉宗|豊臣秀吉
+1600年、徳川家康が勝った「天下分け目」の戦いは？|関ヶ原の戦い|長篠の戦い|桶狭間の戦い|壇ノ浦の戦い
+大名が1年おきに江戸と領地を行き来する制度は？|参勤交代|鎖国|検地|ご恩と奉公
+参勤交代を制度として定めた将軍は？|徳川家光|徳川家康|徳川綱吉|徳川慶喜
+鎖国中、オランダと貿易をした長崎の場所は？|出島|種子島|対馬|佐渡
+「東海道五十三次」をえがいた浮世絵師は？|歌川広重|葛飾北斎|雪舟|近松門左衛門
+正確な日本地図をつくった人物は？|伊能忠敬|杉田玄白|本居宣長|松尾芭蕉
+「解体新書」を出した人物は？|杉田玄白|伊能忠敬|本居宣長|平賀源内
+1853年に浦賀に来て開国を求めたのは？|ペリー|ザビエル|ハリス|マッカーサー
+江戸幕府最後の将軍は？|徳川慶喜|徳川家康|徳川吉宗|徳川家茂
+百姓や町人の子どもが読み書きを学んだ場所は？|寺子屋|藩校|出島|関所`],
+['meiji','明治時代',`明治政府の新しい政治の方針を示したものは？|五箇条の御誓文|十七条の憲法|武家諸法度|大日本帝国憲法
+藩をなくして県を置いた改革は？|廃藩置県|版籍奉還|地租改正|大政奉還
+「学問のすゝめ」を書いたのは？|福沢諭吉|大隈重信|板垣退助|夏目漱石
+自由民権運動を進めたのは？|板垣退助|大久保利通|伊藤博文|木戸孝允
+初代内閣総理大臣は？|伊藤博文|大隈重信|板垣退助|木戸孝允
+大日本帝国憲法が発布されたのは何年？|1889年|1868年|1894年|1904年
+1894年に始まった戦争は？|日清戦争|日露戦争|西南戦争|第一次世界大戦
+領事裁判権をなくすことに成功した外務大臣は？|陸奥宗光|小村寿太郎|伊藤博文|大久保利通
+関税自主権を回復した外務大臣は？|小村寿太郎|陸奥宗光|板垣退助|福沢諭吉
+群馬県につくられた官営の製糸場は？|富岡製糸場|八幡製鉄所|足尾銅山|造幣局
+明治時代、西洋の文化が広まったことを何という？|文明開化|国風文化|鎖国|高度経済成長`],
+['showa','大正〜現代',`1923年に関東地方で起きた大きな災害は？|関東大震災|阪神・淡路大震災|東日本大震災|伊勢湾台風
+1925年に選挙権が認められたのは？|25才以上のすべての男子|20才以上の男女|18才以上の男女|税金を多く納めた男子
+太平洋戦争が始まったのは何年？|1941年|1931年|1937年|1945年
+原子爆弾が落とされた都市は、広島とどこ？|長崎|東京|大阪|沖縄
+日本が降伏し、戦争が終わったのは何年？|1945年|1941年|1951年|1964年
+1964年に東京で開かれたのは？|オリンピック・パラリンピック|万国博覧会|サミット|ワールドカップ
+1950年代後半から経済が急速に発展したことを何という？|高度経済成長|文明開化|産業革命|地租改正
+沖縄が日本に復帰したのは何年？|1972年|1945年|1951年|1964年
+日本が独立を回復した条約は？|サンフランシスコ平和条約|ポーツマス条約|下関条約|日米修好通商条約`],
+['sekai','世界の中の日本',`世界の平和を守るために1945年につくられた国際機関は？|国際連合|国際連盟|ユニセフ|JICA
+国際連合の本部がある都市は？|ニューヨーク|ジュネーブ|パリ|ロンドン
+世界の子どもを守る活動をする国連の機関は？|ユニセフ|ユネスコ|WHO|NGO
+世界遺産の登録などを行う国連の機関は？|ユネスコ|ユニセフ|WHO|JICA
+政府開発援助の略称は？|ODA|NGO|SDGs|PKO
+「持続可能な開発目標」の略称は？|SDGs|ODA|NGO|GDP
+政府ではなく、民間で国際協力をする団体は？|NGO|ODA|国連|内閣
+青年海外協力隊を派遣している日本の組織は？|JICA|ユニセフ|ユネスコ|WHO`]
+]]};
+// 理科・社会のかいせつ（各単元、問題と同じ順番）
+const EXPL={
+moe:`ものが燃えるときは、空気中の酸素が使われる。
+空気は約78%がちっ素、約21%が酸素。
+空気の約21%が酸素。約78%はちっ素。
+ろうそくや木が燃えると、酸素が使われて二酸化炭素ができる。
+石灰水は二酸化炭素にふれると白くにごる。二酸化炭素があるかを調べられる。
+新しい空気が入り、燃えたあとの空気が出ていくと燃え続ける。
+気体検知管は、空気中の酸素や二酸化炭素の体積の割合を調べる道具。`,
+karada:`体の中で酸素が使われて二酸化炭素ができるので、はいた息には二酸化炭素が多い。
+肺で、空気中の酸素が血液に取り入れられ、二酸化炭素が出される。
+だ液や胃液などの消化液が、食べ物を吸収されやすい養分に変える。
+消化された養分は、おもに小腸で吸収されて血液に入る。
+心臓はポンプのように動いて、血液を全身に送り出す。
+じん臓は血液から不要なものをこし出して、にょうをつくる。
+かん臓は、小腸で吸収した養分をたくわえ、必要なときに送り出す。
+ヨウ素液は、でんぷんにつくと青むらさき色になる。
+だ液には、でんぷんを別のものに変えるはたらきがある。`,
+shokubutsu:`葉に日光が当たると、でんぷんがつくられる。
+根から吸い上げた水が、葉から水蒸気になって出ていくことを蒸散という。
+葉の表面にある小さな穴を気孔といい、ここから水蒸気が出ていく。
+植物は日光が当たると、二酸化炭素を取り入れて酸素を出す。
+植物は日光が当たると、二酸化炭素を取り入れて酸素を出す。
+でんぷんにヨウ素液をつけると、青むらさき色に変わる。
+水は根・くき・葉にある決まった通り道を通って、体全体に運ばれる。`,
+seibutsu:`生物は「食べる・食べられる」の関係で、くさりのようにつながっている。これを食物連さという。
+植物は自分で養分をつくる。それを草食動物が食べ、さらに肉食動物が食べる。
+水中の小さな生物はとても小さいので、けんび鏡で観察する。
+植物は日光が当たると酸素を出す。動物はその酸素を吸って生きている。
+メダカは、ミジンコなど水中の小さな生物を食べている。
+人や動物は、呼吸で酸素を取り入れて二酸化炭素を出す。`,
+tsuki:`月は自分では光らず、太陽の光を反射してかがやいている。
+月と太陽の位置関係が変わると、光っている部分の見え方が変わる。
+満月は、地球から見て月が太陽の反対側にあるとき。
+新月は、月が太陽と同じ方向にあり、光っている面が地球から見えないとき。
+月の表面には、石や岩がぶつかってできたクレーターというくぼみがある。
+月は、いつも太陽のある側が光っている。
+太陽は自分で光を出している。月や地球は出していない。`,
+suiyoueki:`酸性の水よう液は、青色リトマス紙を赤色に変える。
+アルカリ性の水よう液は、赤色リトマス紙を青色に変える。
+食塩水は中性で、どちらのリトマス紙の色も変えない。
+炭酸水は、水に二酸化炭素がとけた水よう液。
+塩酸は、アルミニウムなどの金属を、あわを出しながらとかす。
+塩酸や炭酸水は酸性。石灰水やアンモニア水はアルカリ性、食塩水は中性。
+石灰水やアンモニア水はアルカリ性。塩酸や炭酸水は酸性、食塩水は中性。
+危険な気体が出ることもあるので、直接かがず、手であおいでかぐ。
+炭酸水は気体がとけているので、水を蒸発させても何も残らない。`,
+tochi:`大昔の生物の体や、生活のあとが地層に残ったものを化石という。
+流れる水に運ばれる間に角がけずられて、つぶが丸くなる。
+火山のふん火でふき出した火山灰が積もって、地層になる。
+つぶの大きい順に、れき・砂・どろ。
+砂が固まると砂岩、どろが固まるとでい岩、れきが固まるとれき岩。
+どろが固まるとでい岩、砂が固まると砂岩、れきが固まるとれき岩。
+地震のとき、大地に大きな力がはたらいて土地がずれたところを断層という。`,
+teko:`棒を支えるところが支点。
+力を加えるところが力点。
+ものに力がはたらくところが作用点。
+支点から力点までを長くするほど、小さな力で持ち上げられる。
+「おもりの重さ × 支点からのきょり」が左右で等しいとき、てこはつり合う。
+左は 20×3＝60。右も60になればよいので、60÷2＝30g。
+左は 30×4＝120。右も120になればよいので、120÷6＝20g。
+はさみは支点が真ん中。ピンセットは力点が真ん中、せんぬきは作用点が真ん中にある。
+ピンセットは力点が真ん中。はさみは支点が真ん中、せんぬきは作用点が真ん中にある。`,
+denki:`手回し発電機は、ハンドルを回して電気をつくる。
+コンデンサーは、つくった電気をためることができる。
+光電池は、当たる光が強いほど大きな電流が流れる。
+発光ダイオードは豆電球より少ない電気で光るので、長く光る。
+電熱線に電流を流すと発熱する。アイロンやドライヤーに使われている。
+電子オルゴールは電気を音に変える。アイロンは熱に、かい中電灯は光に変える。
+モーターは電気を回る動きに変える。せん風機などに使われている。
+コンピュータに命令を出して動きを決めることをプログラミングという。`,
+kenpo:`三つの原則は、国民主権・基本的人権の尊重・平和主義。三権分立は政治のしくみのこと。
+政治のあり方を決める権利が国民にあることを、国民主権という。
+天皇は、日本国と国民のまとまりの象徴とされ、政治についての権限はもたない。
+第9条で、戦争をしないこと、戦力をもたないことを定めている。
+1946年11月3日に公布され、1947年5月3日に施行された。
+施行された5月3日が憲法記念日。公布された11月3日は文化の日。
+三つの義務は、教育を受けさせる義務・働く義務・税金を納める義務。選挙は権利。
+2016年から、選挙権は18才以上に引き下げられた。`,
+seiji:`国会は、国の法律をつくることができるただ一つの機関。
+国会は衆議院と参議院の二つがあり、しん重に話し合う。
+内閣は内閣総理大臣と国務大臣でつくられ、総理大臣が最高責任者。
+裁判所は、法律にもとづいて争いごとや犯罪を裁く。
+国会（立法）・内閣（行政）・裁判所（司法）が、たがいに行きすぎをおさえ合う。
+国民から選ばれた裁判員が、裁判官といっしょに重い犯罪の裁判に参加する。
+内閣総理大臣は、国会議員の中から国会で指名される。
+予算は内閣が案をつくり、国会で話し合って決める。
+衆議院議員の任期は4年で、とちゅうで解散することがある。
+参議院議員の任期は6年で、3年ごとに半分が選挙で入れかわる。`,
+jomon:`縄文土器は、縄を転がしてつけた模様が特ちょう。
+三内丸山遺跡（青森県）は、縄文時代の大きなむらのあと。
+弥生時代に、大陸から伝わった米づくりが広まった。
+卑弥呼は邪馬台国の女王で、中国に使いを送った。
+吉野ヶ里遺跡（佐賀県）は、ほりやさくで囲まれた弥生時代のむら。
+大仙古墳（大阪府堺市）は、日本でいちばん大きい前方後円墳。
+はにわは、古墳のまわりにならべられた土の焼き物。土ぐうは縄文時代のもの。
+渡来人は、漢字や仏教、土木や織物などの技術を伝えた。`,
+asuka:`聖徳太子は、役人の心がまえを示す十七条の憲法を定めた。
+法隆寺は、今も残る世界最古の木造建築といわれる。
+聖徳太子は、小野妹子らを遣隋使として隋に送った。
+645年、中大兄皇子と中臣鎌足が蘇我氏をたおし、天皇中心の国づくりを始めた。
+710年、唐の都にならって奈良に平城京がつくられた。
+聖武天皇は、仏教の力で国を治めようと、東大寺と大仏をつくらせた。
+行基は人々にしたわれた僧で、大仏づくりに協力した。
+鑑真は何度も航海に失敗しながら来日し、正しい仏教を伝えた。
+正倉院には、聖武天皇の持ち物や、大陸から伝わった宝物が納められている。`,
+heian:`794年、桓武天皇が京都に平安京をつくった。
+藤原道長は、むすめを天皇のきさきにして大きな力をもった。
+紫式部は、かな文字で長い物語「源氏物語」を書いた。
+清少納言は、随筆「枕草子」を書いた。
+漢字をくずしたひらがなと、漢字の一部をとったカタカナができた。
+寝殿造は、平安時代の貴族のやしきのつくり。書院造は室町時代のつくり。
+平清盛は武士で初めて太政大臣になり、中国（宋）との貿易を進めた。
+かな文字や大和絵など、日本風の文化を国風文化という。`,
+kamakura:`源頼朝は鎌倉に幕府を開き、1192年に征夷大将軍になった。
+将軍が御家人の土地を守り（ご恩）、御家人は将軍のために戦う（奉公）関係。
+源義経は、壇ノ浦の戦いで平氏をほろぼした。
+元がせめてきたとき、執権の北条時宗が御家人をまとめて戦った。
+元の大軍が二度せめてきたことを元寇という。
+足利尊氏が京都に室町幕府を開いた。
+金閣は、3代将軍の足利義満が京都の北山に建てた。
+銀閣は、8代将軍の足利義政が京都の東山に建てた。
+雪舟は、すみだけでえがく水墨画を大成した。
+観阿弥・世阿弥の親子が、足利義満の保護を受けて能を大成した。`,
+sengoku:`1543年、種子島に流れ着いたポルトガル人が鉄砲を伝えた。
+1549年、ザビエルが鹿児島に来てキリスト教を伝えた。
+長篠の戦いで、織田信長と徳川家康は鉄砲を使って武田軍を破った。
+楽市・楽座は、だれでも自由に商売ができるようにした政策。
+豊臣秀吉が、信長のあとをついで全国を統一した。
+検地で田畑の広さや収かく高を調べ、年貢を確実に取れるようにした。
+刀狩で百姓から刀や鉄砲を取り上げ、武士と百姓の身分を分けた。
+明智光秀が、本能寺で主君の織田信長をおそった（本能寺の変）。`,
+edo:`徳川家康は1603年に征夷大将軍となり、江戸幕府を開いた。
+1600年の関ヶ原の戦いに勝った徳川家康が、全国を支配する力をもった。
+参勤交代で、大名は1年おきに江戸と領地を行き来し、多くの費用がかかった。
+3代将軍の徳川家光が、参勤交代を制度として定めた。
+鎖国中も、長崎の出島でオランダとの貿易が続けられた。
+歌川広重は「東海道五十三次」、葛飾北斎は「富嶽三十六景」をえがいた。
+伊能忠敬は全国を歩いて測量し、正確な日本地図をつくった。
+杉田玄白らは、オランダ語の医学書をほん訳して「解体新書」を出した。
+1853年、アメリカのペリーが黒船で浦賀に来て、開国を求めた。
+15代将軍の徳川慶喜が、政権を朝廷に返した（大政奉還）。
+寺子屋で、百姓や町人の子どもが読み・書き・そろばんを学んだ。`,
+meiji:`1868年、明治天皇の名で、新しい政治の方針として五箇条の御誓文が出された。
+廃藩置県で藩をなくし、政府が任命した役人が県を治めるようにした。
+福沢諭吉は「学問のすゝめ」で、学問の大切さを説いた。
+板垣退助は、国会を開くことを求める自由民権運動を進めた。
+伊藤博文は初代内閣総理大臣で、憲法づくりの中心にもなった。
+1889年、大日本帝国憲法が発布された。
+1894年に日清戦争、1904年に日露戦争が始まった。
+1894年、陸奥宗光が領事裁判権をなくすことに成功した。
+1911年、小村寿太郎が関税自主権を回復した。
+富岡製糸場（群馬県）は、生糸をつくる官営の工場。世界遺産になっている。
+洋服や牛肉、ガス灯など、西洋の文化が広まったことを文明開化という。`,
+showa:`1923年9月1日に関東大震災が起き、大きな被害が出た。
+1925年、25才以上のすべての男子に選挙権が認められた（普通選挙）。
+1941年、日本がハワイの真珠湾などをこうげきし、太平洋戦争が始まった。
+1945年8月6日に広島、8月9日に長崎に原子爆弾が落とされた。
+1945年8月15日、戦争が終わったことが国民に伝えられた。
+1964年、アジアで初めてのオリンピックが東京で開かれた。
+1950年代後半から1970年代はじめにかけて、経済が急速に発展した。
+沖縄は戦後アメリカに治められ、1972年に日本に復帰した。
+1951年にサンフランシスコ平和条約を結び、翌年、独立を回復した。`,
+sekai:`国際連合（国連）は、1945年に世界の平和を守るためにつくられた。
+国連の本部は、アメリカのニューヨークにある。
+ユニセフは、世界の子どもの命と健康、教育を守る活動をしている。
+ユネスコは、教育・科学・文化を通して平和をめざす機関。世界遺産の登録も行う。
+ODAは、政府が発展途上国に行う資金や技術の援助。
+SDGsは、2030年までに世界が達成をめざす17の目標。
+NGOは、政府ではなく民間の人々がつくる国際協力の団体。
+JICA（国際協力機構）が、青年海外協力隊を世界各地に派遣している。`};
+// 同じ読みで字がちがう漢字のかいせつ
+const KEX={'納':'税金や品物は「納める」。成果は「収める」、国は「治める」、学問は「修める」と使い分ける。','勤':'会社などで働くのは「勤める」。努力するのは「努める」、役目をするのは「務める」。','暖':'気温や気候には「暖かい」、物や心には「温かい」を使う。','映':'鏡や画面には「映る」。写真には「写る」、場所が変わるのは「移る」。','射':'矢を放つのは「射る」。','内臓':'体の中の器官は「内臓」。機械の中に組みこまれているのは「内蔵」。','操作':'機械を動かすのは「操作」。事件を調べるのは「捜査」。','発射':'ロケットを打ち出すのは「発射」。電車が出るのは「発車」。','源':'水の流れ出るもとは「源」。'};
+function fixQ(t,u){const F=FIXQ[t],us=F[2].filter(x=>x[0]===u),U=pick(us.length?us:F[2]),L=U[2].split('\n'),k=R(0,L.length-1),f=L[k].split('|');const q=mk(F[1],f[0],f[1],f.slice(2),(EXPL[U[0]]||'').split('\n')[k]||'');q.u=t+':'+U[0];return q}
+function makeQ(sub){sub=sub||'';
+  if(sub==='weak'){const ks=Object.keys(S.weak);if(ks.length){const w=S.weak[pick(ks)];return {s:w.s,q:w.q,a:w.a,c:shuffle(w.c),ex:w.ex,u:w.u}}}
+  if(!/^[mksh]:/.test(sub)){const r=R(0,3);return r===0?mathQ():r===1?qKanji():fixQ(r===2?'s':'h')}
+  const v=sub.slice(2),t=sub[0];return t==='m'?mathQ(v):t==='k'?qKanji(v):fixQ(t,v)}
+function subName(sub){sub=sub||'';if(sub==='weak')return '苦手な問題';if(!/^[mksh]:/.test(sub))return '4教科ミックス';const v=sub.slice(2),t=sub[0];
+  if(t==='k')return v==='1'?'1学期の漢字':v==='2'?'2学期の漢字':'漢字ぜんぶ';
+  if(t==='m'){const U=UNITS.find(x=>x[0]===v);return U?U[1]:'算数ぜんぶ'}
+  const U=FIXQ[t][2].find(x=>x[0]===v);return U?U[1]:FIXQ[t][0]+'ぜんぶ'}
+const SUBJ={math:'算数',kanji:'漢字',sci:'理科',soc:'社会'};
+
+
+/* ===== セーブデータ ===== */
+const KEY='manabi-nouen-v1';
+const def=()=>({v:1,money:100,lv:1,xp:0,tickets:1,plots:[null,null,null,null],crops:{},fish:{},items:{kakashi:0,net:0,rod:0},coll:{},combo:0,best:0,total:0,pestIn:7,sub:'mix',tab:'farm',mute:false,water:0,w:{math:0,kanji:0,sci:0,soc:0},day:null,weak:{},av:{},open:{},ms:{d:'',l:[]}});
+function load(){try{const j=JSON.parse(localStorage.getItem(KEY));if(j&&j.v===1){const d=def();return Object.assign(d,j,{items:Object.assign(d.items,j.items)})}}catch(e){}return def()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+let S=load(),Q=null;
+function norm(){S.water=S.water||0;if(S.w)TYPES.forEach(t=>{S.water+=S.w[t]||0;S.w[t]=0})}
+function freeWater(p){if(p.w<CROP[p.id].w)p.w++}
+function dayCheck(){const d=new Date().toDateString();if(!S.day||S.day.d!==d)S.day={d,n:{math:0,kanji:0,sci:0,soc:0},u:{}};if(!S.day.u)S.day.u={}}
+// 同じ単元で水がもらえる1日の上限（漢字は学期ごとなので多め）
+const capOf=u=>u[0]==='k'?20:10;
+const capLeft=u=>{dayCheck();return Math.max(0,capOf(u)-(S.day.u[u]||0))};
+function recSub(){dayCheck();const off=new Date().getDate()%4;let best=null;for(let i=0;i<4;i++){const t=TYPES[(i+off)%4];if(best===null||S.day.n[t]<S.day.n[best])best=t}return best}
+norm();
+
+const $=s=>document.querySelector(s);
+const fmt=n=>Math.round(n).toLocaleString('ja-JP');
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;$('#toasts').appendChild(d);setTimeout(()=>d.remove(),2600)}
+const uniq=()=>Object.keys(S.coll).length;
+function addCoin(b){const g=Math.round(b*(1+S.lv/100)*(1+uniq()/100));S.money+=g;return g}
+function addXp(b){const g=Math.round(b*(1+S.lv/100));S.xp+=g;const o=S.lv;
+  while(S.lv<MAXLV&&S.xp>=need(S.lv)){S.xp-=need(S.lv);S.lv++}
+  if(S.lv>o){toast(`⭐ レベルアップ！ Lv.${S.lv}`);sfx('lv');burst($('#lv'),['🎉','⭐','🎊'],16);AREAS.forEach(a=>{if(a.lv>o&&a.lv<=S.lv)toast(`🎉 ${a.e}「${a.n}」を開放できるレベルになった！ マップを見よう`)})}
+  return g}
+const sellMult=()=>S.open.plane?3:S.open.ship?2:S.open.rail?1.5:1;
+const planted=()=>S.plots.map((p,i)=>p?i:-1).filter(i=>i>=0);
+function water(){S.plots.forEach(p=>{if(p)freeWater(p)})}
+function roll(pool,luck){const w=[0,55,30,12,3];if(luck){w[3]*=2;w[4]*=2}
+  const rs=[1,2,3,4].filter(r=>pool.some(c=>c.r===r));let t=rs.reduce((a,r)=>a+w[r],0),x=Math.random()*t,r=rs[0];
+  for(const k of rs){if(x<w[k]){r=k;break}x-=w[k]}
+  return pick(pool.filter(c=>c.r===r))}
+function obtain(c){const isNew=!S.coll[c.id];S.coll[c.id]=(S.coll[c.id]||0)+1;return isNew}
+function checkMs(){const t=new Date().toDateString();if(S.ms.d!==t)S.ms={d:t,l:shuffle(Object.keys(MT)).slice(0,3).map(k=>({k,p:0,c:false}))}}
+function bump(k,v){checkMs();S.ms.l.forEach(m=>{if(m.k!==k||m.c)return;const g=MT[k][1],b=m.p;
+  m.p=k==='combo'?Math.max(m.p,Math.min(S.combo,g)):Math.min(g,m.p+v);
+  if(b<g&&m.p>=g)toast('🎯 限定ミッションたっせい！ チケットを受け取ろう')})}
+
+/* ===== 音とエフェクト ===== */
+let AC=null,master=null;const bgm={name:null,tm:null,step:0};
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=S.mute?0:1;master.connect(AC.destination)}catch(e){AC=null;return null}}
+  if(AC.state==='suspended'&&!document.hidden)AC.resume();return AC}
+function tone(f,t,d,type,v){const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(v,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(master);o.start(t);o.stop(t+d+.03)}
+const hz=m=>440*Math.pow(2,(m-69)/12);
+let NB=null,bgG=null,dly=null;
+function bgInit(){if(bgG)return;bgG=AC.createGain();bgG.gain.value=.85;const cp=AC.createDynamicsCompressor();bgG.connect(cp);cp.connect(master);
+  dly=AC.createDelay(1);dly.delayTime.value=.29;const fb=AC.createGain(),dg=AC.createGain();fb.gain.value=.32;dg.gain.value=.35;dly.connect(fb);fb.connect(dly);dly.connect(dg);dg.connect(bgG);
+  NB=AC.createBuffer(1,Math.floor(AC.sampleRate*.5),AC.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
+function env(g,t,a,d,v){g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+a);g.gain.exponentialRampToValueAtTime(.0001,t+a+d)}
+function syn(f,t,d,type,v,cut,send){const o=AC.createOscillator(),g=AC.createGain(),fl=AC.createBiquadFilter();o.type=type;o.frequency.value=f;fl.type='lowpass';fl.frequency.value=cut;env(g,t,.008,d,v);o.connect(fl);fl.connect(g);g.connect(bgG);if(send)g.connect(dly);o.start(t);o.stop(t+d+.06)}
+function kick(t){const o=AC.createOscillator(),g=AC.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(45,t+.12);env(g,t,.003,.22,.55);o.connect(g);g.connect(bgG);o.start(t);o.stop(t+.3)}
+function noise(t,d,v,type,fq){const s=AC.createBufferSource(),g=AC.createGain(),fl=AC.createBiquadFilter();s.buffer=NB;fl.type=type;fl.frequency.value=fq;env(g,t,.002,d,v);s.connect(fl);fl.connect(g);g.connect(bgG);s.start(t);s.stop(t+d+.05)}
+// 農園: F→G→Em→Am のポップス進行、はねるリズム / 戦い: Am→F→Dm→E の4つ打ち
+const SONGS={
+ farm:{bpm:104,sw:.16,ch:[[53,57,60,64],[55,59,62,65],[52,55,59,62],[57,60,64,67]],bs:[41,43,40,45],
+  mel:[[76,0,0,79,0,0,76,0,74,0,72,0,0,0,74,0],[76,0,0,74,0,0,71,0,74,0,0,0,0,0,67,0],[79,0,0,76,0,0,79,0,83,0,81,0,0,0,79,0],[76,0,0,72,0,0,76,0,81,0,0,0,0,79,76,0]]},
+ battle:{bpm:150,sw:0,ch:[[57,60,64],[53,57,60],[50,53,57],[52,56,59]],bs:[45,41,38,40]}
+};
+function seqStep(n,i,t,d){const s=SONGS[n],bar=(i>>4)%4,k=i%16,c=s.ch[bar],pass=(i>>6)%2;
+  if(n==='farm'){
+    if(k===0||k===7||k===10)kick(t);
+    if(k===4||k===12)noise(t,.14,.2,'bandpass',1800);
+    if(k%2===0)noise(t,.03,k%4===2?.09:.045,'highpass',7000);
+    if([0,3,6,10,13].includes(k))c.forEach(m=>syn(hz(m+12),t,d*2.2,'triangle',.05,1900,true));
+    if(k===0||k===3||k===8||k===11)syn(hz(s.bs[bar]),t,d*2.6,'sine',.3,700);
+    const m=s.mel[bar][k];if(m&&(pass===1||bar>=2)){syn(hz(m),t,d*2.6,'sine',.12,3200,true);syn(hz(m),t,d*1.6,'triangle',.04,2600)}
+  }else{
+    if(k%4===0)kick(t);
+    if(k===4||k===12)noise(t,.12,.2,'bandpass',2200);
+    noise(t,.02,k%4===2?.1:.04,'highpass',8000);
+    if(k%4===2)syn(hz(s.bs[bar]),t,d*1.6,'sawtooth',.16,520);
+    else if(k%2===0)syn(hz(s.bs[bar]-12),t,d*.9,'sawtooth',.1,320);
+    syn(hz(c[[0,1,2,1][k%4]]+12*(1+(k>>3))),t,d*.9,'square',.03,2400,true);
+    if(k===0)c.forEach(m=>syn(hz(m),t,d*14,'sawtooth',.028,900));
+    if(k===0||k===8)syn(hz(c[2]+24-(k?1:0)),t,d*7,'sawtooth',.028,1900,true);
+  }}
+function playBgm(n){if(bgm.name===n)return;clearInterval(bgm.tm);bgInit();bgm.name=n;bgm.step=0;bgm.next=AC.currentTime+.08;const s=SONGS[n],d=15/s.bpm;
+  bgm.tm=setInterval(()=>{if(!AC||AC.state!=='running')return;if(bgm.next<AC.currentTime)bgm.next=AC.currentTime+.05;
+    while(bgm.next<AC.currentTime+.15){const i=bgm.step++;seqStep(n,i,bgm.next+(i%2?d*s.sw:0),d);bgm.next+=d}},30)}
+function syncBgm(){const b=!!(Q&&Q.mode==='battle'&&!Q.over);$('#quiz').classList.toggle('danger',b);if(ac())playBgm(b?'battle':'farm')}
+function sfx(k){if(!ac())return;const t=AC.currentTime,bad=k==='ng'||k==='lose';
+  ({ok:[[880,0],[1109,.07],[1319,.14]],ng:[[196,0],[147,.12]],plant:[[330,0],[494,.07]],harvest:[[659,0],[880,.08],[1047,.16]],coin:[[1319,0],[1760,.07]],lv:[[523,0],[659,.1],[784,.2],[1047,.3]],win:[[523,0],[784,.12],[1047,.24],[1319,.36]],lose:[[330,0],[262,.18],[196,.36]]})[k]
+  .forEach(p=>tone(p[0],t+p[1],bad?.3:.2,bad?'sawtooth':'triangle',bad?.09:.2))}
+function burst(el,chars,n){try{if(!el||matchMedia('(prefers-reduced-motion:reduce)').matches)return;const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  for(let i=0;i<n;i++){const s=document.createElement('span');s.textContent=pick(chars);s.style.cssText=`position:fixed;left:${cx}px;top:${cy}px;z-index:50;font-size:${R(18,32)}px;pointer-events:none`;document.body.appendChild(s);
+    const a=Math.random()*6.28,d=R(50,140);
+    s.animate([{transform:'translate(-50%,-50%) scale(.4)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(a)*d}px),calc(-50% + ${Math.sin(a)*d-40}px)) scale(1.2)`,opacity:0}],{duration:R(600,950),easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>s.remove()}}catch(e){}}
+
+/* ===== 農家の見た目と畑の絵 ===== */
+const AV={skin:['#ffe0c2','#f5c8a0','#d9a273','#a8703f','#6f4627'],hair:['#2b2118','#5a3a1c','#b5651d','#e3b54a','#c0392b','#8e8e8e'],cloth:['#2f6fb5','#c0392b','#3f9a3a','#e58e26','#7d4bb0','#444444'],
+ hat:[['mugiwara','むぎわらぼうし'],['cap','キャップ'],['bandana','バンダナ'],['none','なし']],style:[['short','みじかい'],['long','ながい']]};
+function farmer(a,w){a=a||{};const sk=a.skin||AV.skin[1],hr=a.hair||AV.hair[0],cl=a.cloth||AV.cloth[0],ht=a.hat||'mugiwara';
+  const hat={mugiwara:`<ellipse cx="50" cy="27" rx="34" ry="8" fill="#e8c36a" stroke="#b8923c" stroke-width="2"/><path d="M30 26 Q50 -4 70 26 Z" fill="#f0d07e" stroke="#b8923c" stroke-width="2"/><path d="M31 23 Q50 16 69 23" stroke="#c0392b" stroke-width="4" fill="none"/>`,
+   cap:`<path d="M29 28 Q50 -2 71 28 Z" fill="${cl}"/><path d="M60 25 Q84 24 86 32 L62 31 Z" fill="${cl}"/>`,
+   bandana:`<path d="M28 26 Q50 6 72 26 L72 32 Q50 20 28 32 Z" fill="#c0392b"/><circle cx="74" cy="32" r="4" fill="#c0392b"/>`,none:''}[ht]||'';
+  return `<svg viewBox="0 0 100 140" width="${w}" role="img" aria-label="農家"><ellipse cx="50" cy="134" rx="30" ry="5" fill="rgba(0,0,0,.22)"/>
+  ${a.style==='long'?`<rect x="25" y="34" width="10" height="34" rx="5" fill="${hr}"/><rect x="65" y="34" width="10" height="34" rx="5" fill="${hr}"/>`:''}
+  <rect x="36" y="104" width="11" height="26" rx="4" fill="${cl}"/><rect x="53" y="104" width="11" height="26" rx="4" fill="${cl}"/><rect x="33" y="124" width="16" height="9" rx="4" fill="#4a3220"/><rect x="51" y="124" width="16" height="9" rx="4" fill="#4a3220"/>
+  <rect x="18" y="66" width="12" height="34" rx="6" fill="#f3efe4"/><rect x="70" y="66" width="12" height="34" rx="6" fill="#f3efe4"/><circle cx="24" cy="101" r="6" fill="${sk}"/><circle cx="76" cy="101" r="6" fill="${sk}"/>
+  <rect x="28" y="62" width="44" height="48" rx="10" fill="#f3efe4"/><path d="M32 78 H68 V110 H32 Z" fill="${cl}"/><rect x="34" y="62" width="6" height="18" fill="${cl}"/><rect x="60" y="62" width="6" height="18" fill="${cl}"/><circle cx="37" cy="80" r="2.5" fill="#f5d76e"/><circle cx="63" cy="80" r="2.5" fill="#f5d76e"/>
+  <circle cx="50" cy="40" r="22" fill="${sk}"/><path d="M28 38 Q30 16 50 16 Q70 16 72 38 Q64 26 50 26 Q36 26 28 38 Z" fill="${hr}"/>
+  <circle cx="42" cy="42" r="2.6" fill="#2b2118"/><circle cx="58" cy="42" r="2.6" fill="#2b2118"/><circle cx="36" cy="49" r="4" fill="#f08a7a" opacity=".5"/><circle cx="64" cy="49" r="4" fill="#f08a7a" opacity=".5"/><path d="M43 51 Q50 58 57 51" stroke="#2b2118" stroke-width="2.2" fill="none" stroke-linecap="round"/>${hat}</svg>`}
+function plantSvg(p){const s=.45+p*.55;return `<svg viewBox="0 0 60 50" width="64%" aria-hidden="true"><ellipse cx="30" cy="45" rx="20" ry="5" fill="#3d2713"/><g transform="translate(30 45) scale(${s}) translate(-30 -45)"><path d="M30 45 V20" stroke="#2f7d32" stroke-width="3.5" fill="none"/><path d="M30 33 Q14 31 9 16 Q26 16 30 33 Z" fill="#59b84d"/><path d="M30 29 Q46 27 51 12 Q34 12 30 29 Z" fill="#43a23a"/>${p>=.5?'<path d="M30 22 Q20 14 24 1 Q37 8 30 22 Z" fill="#74cf63"/>':''}</g></svg>`}
+function sceneHtml(){let posts='';for(let x=8;x<400;x+=28)posts+=`M${x} 124 V148 `;
+  return `<div class="scene"><svg class="bgsvg" viewBox="0 0 400 150" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fbdf0"/><stop offset="1" stop-color="#e6f7ff"/></linearGradient></defs>
+  <rect width="400" height="150" fill="url(#skyg)"/><circle cx="330" cy="32" r="19" fill="#ffd95a"/><circle cx="330" cy="32" r="27" fill="#ffd95a" opacity=".3"/>
+  <g fill="#fff" opacity=".92"><ellipse cx="80" cy="30" rx="30" ry="10"/><ellipse cx="102" cy="23" rx="20" ry="9"/><ellipse cx="225" cy="46" rx="26" ry="8"/><ellipse cx="243" cy="41" rx="15" ry="7"/></g>
+  <path d="M0 96 L60 58 L110 88 L170 50 L240 92 L300 66 L400 100 V150 H0 Z" fill="#9ec7d8"/>
+  <path d="M0 108 Q70 70 150 100 T290 92 T400 100 V150 H0 Z" fill="#8ccf7e"/><path d="M0 124 Q120 96 220 120 T400 114 V150 H0 Z" fill="#5fae4e"/>
+  <g transform="translate(36 70)"><path d="M0 22 L26 0 L52 22 V56 H0 Z" fill="#c8402f"/><path d="M-4 24 L26 -4 L56 24" stroke="#7a2318" stroke-width="5" fill="none" stroke-linejoin="round"/><rect x="18" y="30" width="16" height="26" fill="#7a2318"/><rect x="20" y="9" width="12" height="10" fill="#fff3d6"/></g>
+  <g transform="translate(118 86)"><rect x="-3" y="14" width="6" height="22" fill="#7a5230"/><circle r="17" cy="6" fill="#3f8f3a"/><circle r="11" cx="-9" cy="12" fill="#4fa046"/></g>
+  <g transform="translate(160 96)"><rect x="-2" y="10" width="5" height="18" fill="#7a5230"/><circle r="12" cy="4" fill="#3f8f3a"/></g>
+  <path d="${posts}M0 131 H400 M0 141 H400" stroke="#f6eed8" stroke-width="4" fill="none"/></svg>
+  <div class="basket" id="basket">🧺<b>${stockCount()}</b></div><div class="avatar">${farmer({},76)}</div></div>`}
+
+/* ===== 画面 ===== */
+const TABS=[['farm','🌾','農園'],['shop','🛒','お店'],['event','🎁','ガチャ'],['book','📖','ずかん']];
+function render(){
+  checkMs();
+  $('#lv').textContent=S.lv;$('#mo').textContent=fmt(S.money);$('#tk').textContent=S.tickets;
+  $('#xpb').style.width=(S.lv>=MAXLV?100:S.xp/need(S.lv)*100)+'%';
+  $('#xpt').textContent=S.lv>=MAXLV?'さいこうレベル':`つぎまで ${need(S.lv)-S.xp}XP`;
+  const claim=S.ms.l.some(m=>!m.c&&m.p>=MT[m.k][1]);
+  const nb=t=>`<button data-a="tab" data-v="${t[0]}" class="${S.tab===t[0]?'on':''}"><span>${t[1]}</span>${t[2]}${t[0]==='farm'&&claim?' ●':''}</button>`;
+  $('#tabs').innerHTML=nb(TABS[0])+nb(TABS[1])+`<button class="navc" data-a="study"><span>💧</span>水をゲット</button>`+nb(TABS[2])+nb(TABS[3]);
+  $('#mu').textContent=S.mute?'🔇':'🔊';
+  $('#view').innerHTML=V[S.tab]();
+  save();
+}
+const V={
+ farm(){
+  const se=SEASONS[SEA],sc=CROPS.find(c=>c.sea===SEA);
+  const plots=S.plots.map((p,i)=>{
+    if(!p)return `<button class="plot empty" data-a="plant" data-v="${i}" >＋<b>たねをまく</b></button>`;
+    const c=CROP[p.id],ripe=p.w>=c.w;
+    return `<button class="plot ${ripe?'ripe':''}" data-a="${ripe?'harvest':'info'}" data-v="${i}">${ripe?`<span class="rp">${c.e}</span>`:plantSvg(p.w/c.w)}<b>${ripe?'しゅうかく！':c.n+'<br>💧あと'+(c.w-p.w)+'こ'}</b></button>`}).join('');
+  const st=[...Object.entries(S.crops).map(([k,n])=>`<span>${CROP[k].e}×${n}</span>`),...Object.entries(S.fish).map(([k,n])=>{const c=CRE.find(x=>x.id===k);return `<span>${c.e}×${n}</span>`})];
+  const m=sellMult(),ripeN=S.plots.filter(p=>p&&p.w>=CROP[p.id].w).length;
+  const rec=recSub();
+  const guide=ripeN?'👆 「しゅうかく！」の畑をおそう':planted().length?(S.water?'💧 育てたい畑をおして、水をあげよう':'✏️ 下の「水をゲット」で問題をとこう'):st.length?'🪙 そうこの「ぜんぶ売る」をおそう':'🌱 「たねをまく」をおして、作物をえらぼう';
+  return `<div class="guide"><small style="color:inherit;opacity:.8">つぎにやること</small><br>${guide}</div>
+  <div class="banner" style="margin-bottom:0">⭐ 今日のおすすめは「${SUBJ[rec]}」。正解すると水とコインが2ばい</div>
+  <div class="row" style="margin-top:10px"><b class="grow" style="font-size:20px">💧 もっている水　<span class="num">${S.water}</span>こ</b><small>1問正解で1こ</small></div>
+  ${sceneHtml()}<div class="field">${plots}</div>
+  ${placesHtml()}
+  <p style="margin-top:12px"><button class="btn sub" data-a="tab" data-v="map">🗺️ マップでつぎの場所を見る${AREAS.some(a=>!isOpen(a)&&S.lv>=a.lv)?'　● 開放できる':''}</button></p>
+  <div class="box"><div class="row"><div class="grow"><b>そうこ</b> <small>${m>1?`出荷ボーナス ×${m}`:''}</small></div><button class="btn" data-a="sell" ${st.length?'':'disabled'}>ぜんぶ売る${st.length?`（+${fmt(stockValue())}）`:''}</button></div>
+  <div class="stock">${st.join('')||'<small>しゅうかくした作物や、つった魚がここに入るよ。</small>'}</div></div>
+  ${msHtml()}
+  <div class="banner">${sc.e} 期間限定「${se.n}」${se.end}まで。${sc.n}のたねと限定キャラが登場中。</div>
+  <p class="muted">れんぞく正解 ${S.combo}問　さいこう ${S.best}問　これまでの正解 ${S.total}問</p>`},
+ shop(){
+  const n=S.plots.length,pc=200*Math.pow(2,n-4);
+  const it=[
+   ['plot','🟫','畑を1つふやす',n>=12?'もうふやせない':`今は${n}つ。12こまで。`,pc,n>=12],
+   ['kakashi','👒','かかし',`害虫を1回おいはらう。もっている数 ${S.items.kakashi}`,150,false],
+   ['hiryo','🧪','ひりょう','ぜんぶの畑に水を3回ぶんあげる。もっている水はへらない。',120,!planted().length],
+   ['net','🥅','虫あみ',S.items.net?'もっている':'はやく正解したとき、生きものが見つかりやすくなる。',300,!!S.items.net],
+   ['rod','🎣','つりざお',S.items.rod?'もっている':'川と海でつりができる。川を開放すると使える。',500,!!S.items.rod]
+  ];
+  return `<h2>お店</h2><p class="muted">問題をといてためたコインで、農園に役立つものを買おう。たねは畑の＋から買えるよ。</p>
+  <div class="box list">${it.map(x=>`<div class="row"><span class="em">${x[1]}</span><div class="grow"><b>${x[2]}</b><br><small>${x[3]}</small></div><button class="btn" data-a="buy" data-v="${x[0]}" ${x[5]||S.money<x[4]?'disabled':''}>🪙${fmt(x[4])}</button></div>`).join('')}</div>`},
+ map(){
+  return `<h2>マップ</h2><p class="muted">レベルを上げて、コインをはらうと新しい場所が開放される。レベルは1から${MAXLV}まで。</p><div class="route">${AREAS.map(a=>{
+    const open=isOpen(a),reach=S.lv>=a.lv,lack=a.cost-S.money;let act='';
+    if(open){
+      if(a.id==='farm')act=`<button class="btn sub" data-a="tab" data-v="farm">農園へ行く</button>`;
+      if(a.id==='river'||a.id==='sea')act=S.items.rod?`<button class="btn" data-a="go" data-v="${a.id}">🎣 つりをする</button>`:`<small>お店でつりざおを買うと、つりができる。</small>`;
+      if(a.id==='forest')act=`<button class="btn" data-a="go" data-v="forest">🔍 生きものをさがす</button>`;
+      if(['rail','ship','plane'].includes(a.id))act=`<small>✅ 出荷ボーナスがきいている</small>`;
+    }
+    if(!open&&reach)act=`<button class="btn" data-a="unlock" data-v="${a.id}" ${lack>0?'disabled':''}>🪙${fmt(a.cost)} で開放する</button>${lack>0?`<br><small>コインがあと🪙${fmt(lack)} 足りない</small>`:''}`;
+    if(!reach)act=`<small>開放には Lv.${a.lv} と 🪙${fmt(a.cost)} が必要</small>`;
+    return `<div class="stop ${open?'open':'lock'}"><div class="row"><span class="em">${open?a.e:'🔒'}</span><div class="grow"><h3>${a.n}</h3><span class="need">Lv.${a.lv}${reach?'':`　あと${a.lv-S.lv}レベル`}${open||!a.cost?'':`　🪙${fmt(a.cost)}`}</span></div></div><p style="margin:6px 0">${a.d}</p>${act}</div>`}).join('')}</div>`},
+ event(){
+  const sc=CRE.find(c=>c.src===SEA);
+  return `<h2>ガチャ</h2>
+  <div class="box center"><div class="huge">🎁</div><p>動物やキャラが出る。今だけ ${sc.e}<b>${sc.n}</b>（${SRC[SEA]}）も出るよ。</p>
+  <p class="muted">SSR 3%　SR 12%　R 30%　N 55%</p>
+  <button class="cta" data-a="gacha" ${S.tickets?'':'disabled style="opacity:.5"'}>チケット1まいでガチャをひく</button>
+  <p class="muted" style="margin-top:10px">もっているチケット ${S.tickets}まい。害虫をおいはらうと、たまにもらえることもある。</p></div>`},
+ book(){
+  const groups=['farm','forest','river','sea','gacha'];
+  const cell=c=>{const n=S.coll[c.id];return `<div class="cell r${c.r} ${n?'':'no'}"><span class="em">${n?c.e:'❔'}</span>${n?c.n:'？？？'}<br><span class="tag">${RAR[c.r]}${n>1?' ×'+n:''}</span></div>`};
+  const lim=CRE.filter(c=>SEASONS[c.src]);
+  return `<h2>ずかん</h2><p>${uniq()} / ${CRE.length} しゅるい　<b>コインボーナス +${uniq()}%</b></p><p class="muted">1しゅるい見つけるごとに、もらえるコインが1%ふえる。</p>
+  ${groups.map(g=>`<h2 style="font-size:16px">${SRC[g]}</h2><div class="grid">${CRE.filter(c=>c.src===g).map(cell).join('')}</div>`).join('')}
+  <h2 style="font-size:16px">期間限定</h2><div class="grid">${lim.map(cell).join('')}</div>`}
+};
+function msHtml(){const now=new Date(),h=23-now.getHours(),mi=59-now.getMinutes();
+  return `<h2>今日の限定ミッション</h2><p class="muted">あと${h}時間${mi}分でいれかわる。たっせいするとガチャチケットがもらえる。</p>
+  <div class="box list">${S.ms.l.map((m,i)=>{const g=MT[m.k][1],done=m.p>=g;
+    return `<div class="row"><div class="grow"><b>${MT[m.k][0]}</b><div class="bar" style="margin-top:5px"><i style="width:${m.p/g*100}%"></i></div><small>${m.p} / ${g}</small></div>${m.c?'<small>受け取りずみ</small>':`<button class="btn" data-a="claim" data-v="${i}" ${done?'':'disabled'}>🎟️ 受け取る</button>`}</div>`}).join('')}</div>`}
+function placesHtml(){const ps=AREAS.filter(a=>a.act&&isOpen(a));if(!ps.length)return '';
+  return `<p style="margin:14px 0 4px">行ける場所</p><div class="seg" style="margin-top:0;flex-wrap:wrap">${ps.map(a=>a.act==='fish'&&!S.items.rod?`<button data-a="tab" data-v="shop">${a.e} ${a.n}<br><small>お店でつりざおを買おう</small></button>`:`<button data-a="go" data-v="${a.id}">${a.e} ${a.n}<br><small>${a.act==='fish'?'つりをする':'生きものをさがす'}</small></button>`).join('')}</div>`}
+const stockCount=()=>Object.values(S.crops).concat(Object.values(S.fish)).reduce((a,b)=>a+b,0);
+function fly(r0,to,ch,delay,size,done){try{if(!r0||!to||matchMedia('(prefers-reduced-motion:reduce)').matches){done&&done();return}
+  const r1=to.getBoundingClientRect(),x0=r0.left+r0.width/2,y0=r0.top+r0.height/2,dx=r1.left+r1.width/2-x0,dy=r1.top+r1.height/2-y0;
+  const e=document.createElement('span');e.textContent=ch;e.style.cssText=`position:fixed;left:${x0}px;top:${y0}px;z-index:50;font-size:${size}px;line-height:1;pointer-events:none;transform:translate(-50%,-50%);filter:drop-shadow(0 4px 3px rgba(0,0,0,.35))`;document.body.appendChild(e);
+  e.animate([{transform:'translate(-50%,-50%) scale(1)',offset:0},{transform:'translate(-50%,calc(-50% - 36px)) scale(1.4)',offset:.28},{transform:`translate(calc(-50% + ${dx*.6}px),calc(-50% + ${dy*.6-56}px)) scale(1.1)`,offset:.68},{transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) scale(.45)`,offset:1}],{duration:800,delay:delay||0,easing:'ease-in-out',fill:'backwards'}).onfinish=()=>{e.remove();done&&done()}}catch(_){done&&done()}}
+const rePop=el=>{if(el&&el.classList){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop')}};
+function stockValue(){let v=0;for(const k in S.crops)v+=CROP[k].sell*S.crops[k];
+  for(const k in S.fish){const c=CRE.find(x=>x.id===k);v+=[0,40,120,400,1500][c.r]*(c.src==='sea'?10:1)*S.fish[k]}
+  return v*sellMult()}
+function modal(h){$('#sheet').innerHTML=h;$('#modal').hidden=false}
+function closeModal(){$('#modal').hidden=true}
+
+/* ===== クイズ ===== */
+const LABEL={study:'✏️ べんきょう',battle:'⚔️ 畑を守るたたかい',river:'🎣 川でつり',sea:'🎣 海でつり',forest:'🔍 森でさがす'};
+function openQuiz(mode,sub){Q={mode,sub:sub||S.sub,miss:0};$('#quiz').hidden=false;nextQ();syncBgm()}
+function closeQuiz(){if(Q)clearTimeout(Q.tm);Q=null;$('#quiz').hidden=true;syncBgm();render()}
+function nextQ(){
+  if(Q.mode==='study'&&S.pestIn<=0&&planted().length)return pestIntro();
+  Q.cur=makeQ(Q.sub);Q.locked=false;Q.t0=performance.now();drawQ();
+  if(Q.mode==='battle'){const b=$('#tb');requestAnimationFrame(()=>{b.style.transition='width 30s linear';b.style.width='0%'});Q.tm=setTimeout(()=>answer(-1),30000)}
+}
+function drawQ(){
+  const q=Q.cur,long=q.c.some(c=>c.replace(/<[^>]+>/g,'').length>8);$('#qlabel').textContent=LABEL[Q.mode]+(Q.mode==='study'?'　'+subName(Q.sub):'');
+  let head=`<p class="muted" style="margin:8px 0 0">🔥 れんぞく正解 ${S.combo}問</p>`;
+  if(Q.mode==='battle')head=`<div class="foe"><span class="big">${Q.pest.e}</span><div><b>${Q.pest.n}</b><div>${'❤️'.repeat(Q.pest.hp)}${'🤍'.repeat(Q.pest.max-Q.pest.hp)}</div><small>ミス ${Q.miss} / 3　30秒でこたえよう</small></div></div><div class="tbar"><i id="tb"></i></div>`;
+  $('#qbody').innerHTML=head+`<div class="qcard"><small>${SUBJ[q.s]}</small><p>${q.q}</p></div><div class="opts${long?' long':''}">${q.c.map((c,i)=>`<button data-a="ans" data-v="${i}">${c}</button>`).join('')}</div><div id="fb"></div>`+(q.s==='math'?`<div class="tools"><button data-a="tool" data-v="calc" class="${TOOL==='calc'?'on':''}">🧮 電卓</button><button data-a="tool" data-v="memo" class="${TOOL==='memo'?'on':''}">✏️ 計算メモ</button></div><div id="tool"></div>`:'');
+  CALC='';drawTool();$('#quiz').scrollTop=0;
+}
+let TOOL=null,CALC='';
+function calcEval(e){const t=e.match(/\d+\.?\d*|[+\-*/]/g)||[],a=[];
+  for(let i=0;i<t.length;i++){const x=t[i];if((x==='*'||x==='/')&&typeof a[a.length-1]==='number'&&i+1<t.length){const l=a.pop(),rr=+t[++i];a.push(x==='*'?l*rr:l/rr)}else a.push(/^[+\-*/]$/.test(x)?x:+x)}
+  let v=typeof a[0]==='number'?a[0]:0;for(let i=1;i<a.length-1;i+=2)v=a[i]==='-'?v-a[i+1]:v+a[i+1];return Math.round(v*1e6)/1e6}
+const calcShow=()=>(CALC||'0').replace(/\*/g,'×').replace(/\//g,'÷').replace(/-/g,'−');
+function drawTool(){const t=$('#tool');if(!t)return;
+  document.querySelectorAll('.tools button').forEach(b=>b.classList.toggle('on',b.dataset.v===TOOL));
+  if(TOOL==='calc')t.innerHTML=`<div class="calc"><div class="cd" id="cd">${calcShow()}</div>${['7','8','9','/','4','5','6','*','1','2','3','-','0','.','=','+','C','BS'].map(k=>`<button data-a="ck" data-v="${k}">${{'/':'÷','*':'×','-':'−','+':'＋',C:'ぜんぶけす',BS:'1字けす'}[k]||k}</button>`).join('')}</div>`;
+  else if(TOOL==='memo'){t.innerHTML=`<div class="memo"><canvas id="mc"></canvas><button class="btn sub" data-a="memoClear">メモをけす</button></div>`;initMemo()}
+  else t.innerHTML=''}
+function initMemo(){const c=$('#mc');if(!c||!c.getContext)return;const dpr=window.devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;c.width=w*dpr;c.height=h*dpr;
+  const x=c.getContext('2d');x.scale(dpr,dpr);x.lineWidth=3;x.lineCap='round';x.lineJoin='round';x.strokeStyle=getComputedStyle(document.body).color;let on=false;
+  const pos=e=>{const b=c.getBoundingClientRect();return [e.clientX-b.left,e.clientY-b.top]};
+  c.onpointerdown=e=>{on=true;try{c.setPointerCapture(e.pointerId)}catch(_){}const p=pos(e);x.beginPath();x.moveTo(p[0],p[1]);x.lineTo(p[0]+.1,p[1]);x.stroke();e.preventDefault()};
+  c.onpointermove=e=>{if(!on)return;const p=pos(e);x.lineTo(p[0],p[1]);x.stroke()};
+  c.onpointerup=c.onpointercancel=()=>{on=false}}
+function pestIntro(){
+  const p=pick(PESTS);S.pestIn=R(6,10);Q={mode:'battle',sub:Q.sub,miss:0,pest:{e:p[0],n:p[1],hp:p[2],max:p[2]}};
+  $('#qlabel').textContent=LABEL.battle;
+  $('#qbody').innerHTML=`<div class="center" style="margin-top:30px"><div class="huge">${p[0]}</div><h2>${p[1]}が畑にやってきた！</h2><p>問題に${p[2]}回正解すると、おいはらえる。<br>3回まちがえると、作物を1つ食べられてしまう。</p>
+  <p><button class="cta" data-a="fight">たたかう</button></p>${S.items.kakashi?`<p><button class="btn sub" data-a="scare">👒 かかしを使っておいはらう（のこり${S.items.kakashi}）</button></p>`:''}</div>`;
+  syncBgm();save();
+}
+function answer(i){
+  if(!Q||Q.locked)return;Q.locked=true;clearTimeout(Q.tm);
+  const q=Q.cur,ok=i>=0&&q.c[i]===q.a,sec=(performance.now()-Q.t0)/1000,fast=ok&&sec<=(q.s==='kanji'?5:10),wkey=q.s+'|'+q.q;
+  let lines=[],end=null,capped=false;
+  if(ok){
+    if(Q.sub==='weak'&&S.weak[wkey]){delete S.weak[wkey];var cleared=1}S.combo++;S.total++;S.best=Math.max(S.best,S.combo);
+    const bonus=recSub()===q.s,left=q.u?capLeft(q.u):99,wg=left<1?0:bonus?2:1,coin=addCoin((10+Math.min(S.combo,10)+(fast?5:0))*(bonus?2:1)),xp=addXp(10+(fast?5:0));
+    S.water+=wg;S.day.n[q.s]++;if(q.u)S.day.u[q.u]=(S.day.u[q.u]||0)+1;capped=left<=1;bump(q.s,1);bump('combo',0);if(fast)bump('fast',1);
+    lines.push(`<span class="gain">⭕ 正解！ 🪙+${coin}　XP+${xp}　${wg?'💧水+'+wg+'（いま'+S.water+'こ）':'水はなし'}</span>`);if(bonus)lines.push('⭐ 今日のおすすめボーナス！ '+(wg?'水とコインが2ばい':'コインが2ばい'));if(capped)lines.push(`<span class="exp"><b>🚰 「${subName(q.u)}」の水は今日はおしまい</b><br>同じ単元でもらえる水は1日${capOf(q.u)}問まで。ほかの単元の問題で水をためよう。</span>`);if(cleared)lines.push(`💪 苦手を1つクリア！ のこり${Object.keys(S.weak).length}問`);
+    if(Q.mode==='study'){
+      if(planted().length)S.pestIn--;
+      if(fast&&Math.random()<(S.items.net?.4:.25)){const c=roll(CRE.filter(c=>c.src==='farm'||(c.src==='forest'&&S.open.forest)),true),nw=obtain(c);lines.push(`⚡ はやい！ ${c.e}${c.n}（${RAR[c.r]}）を見つけた${nw?'。ずかんに登録！':''}`)}
+    }else if(Q.mode==='river'||Q.mode==='sea'){
+      const c=roll(CRE.filter(c=>c.src===Q.mode),fast),nw=obtain(c);S.fish[c.id]=(S.fish[c.id]||0)+1;lines.push(`🎣 ${c.e}${c.n}（${RAR[c.r]}）がつれた${nw?'。ずかんに登録！':''}`);
+    }else if(Q.mode==='forest'){
+      const c=roll(CRE.filter(c=>c.src==='forest'),fast),nw=obtain(c);lines.push(`🔍 ${c.e}${c.n}（${RAR[c.r]}）を見つけた${nw?'。ずかんに登録！':''}`);
+    }else if(Q.mode==='battle'){
+      Q.pest.hp--;
+      if(Q.pest.hp<=0){const c=addCoin(40*Q.pest.max),x=addXp(15*Q.pest.max);bump('pest',1);let t='';if(Math.random()<.2){S.tickets++;t='　🎟️チケットもゲット！'}
+        end=`🎉 ${Q.pest.n}をおいはらった！<br>🪙+${c}　XP+${x}${t}`}
+      else lines.push(`💥 ${Q.pest.n}にダメージ！ あと${Q.pest.hp}回`);
+    }
+  }else{
+    S.combo=0;S.weak[wkey]={s:q.s,q:q.q,a:q.a,c:q.c,ex:q.ex,u:q.u};const wk=Object.keys(S.weak);if(wk.length>80)delete S.weak[wk[0]];
+    lines.push(`<span class="gain">${i<0?'⏰ 時間切れ':'❌ ざんねん'}　正解は「${q.a}」</span>`);
+    if(q.ex)lines.push(`<span class="exp"><b>💡 かいせつ</b><br>${q.ex}</span>`);lines.push('<small>📌 「苦手な問題」に入れたよ</small>');
+    if(Q.mode==='river'||Q.mode==='sea')lines.push('魚ににげられた…');
+    if(Q.mode==='battle'){Q.miss++;
+      if(Q.miss>=3){const ix=planted();if(ix.length){const k=pick(ix),c=CROP[S.plots[k].id];S.plots[k]=null;end=`😢 ${c.e}${c.n}を食べられてしまった…<br>つぎは守ろう！`}else end='畑には何もなかったので、帰っていった。'}
+      else lines.push(`ミス ${Q.miss} / 3`)}
+  }
+  document.querySelectorAll('.opts button').forEach((b,k)=>{b.disabled=true;if(q.c[k]===q.a)b.classList.add('ok');else if(k==i)b.classList.add('ng')});
+  const card=$('.qcard');
+  if(ok){card.classList.add('good');burst(document.querySelectorAll('.opts button')[i],['✨','⭐','🪙','💧'],fast?18:11);sfx('ok');if(Q.mode==='battle'){const f=$('.foe .big');if(f)f.classList.add('shake')}}
+  else{card.classList.add('shake');sfx('ng')}
+  if(end){Q.over=true;syncBgm();sfx(Q.pest.hp<=0?'win':'lose')}
+  save();
+  if(end){$('#fb').innerHTML=`<p>${lines.join('<br>')}</p><p class="gain">${end}</p><button class="btn" data-a="backStudy">べんきょうにもどる</button> <button class="btn sub" data-a="closeQuiz">農園にもどる</button>`;return}
+  $('#fb').innerHTML=`<p>${lines.join('<br>')}</p><button class="btn" data-a="next">つぎの問題</button>`;
+  if(ok&&!capped)Q.tm=setTimeout(()=>{if(Q&&Q.locked)nextQ()},1500);
+}
+
+/* ===== ボタンの動き ===== */
+const A={
+ tab(v){S.tab=v;render();window.scrollTo(0,0)},
+ sub(v){S.sub=v;render()},
+ study(){
+  const lim=v=>{if(!/^[mksh]:/.test(v)||/:all$/.test(v))return '';const n=capLeft(v);return `<br><small>${n?'水は今日あと'+n+'問':'🚰 水は今日おしまい'}</small>`};
+  const b=(v,t)=>`<button data-a="pickSub" data-v="${v}" class="${S.sub===v?'on':''}">${t}${lim(v)}</button>`,cur=(S.sub||'')[0],wn=Object.keys(S.weak).length;
+  const rec=recSub(),KT={k:'kanji',m:'math',s:'sci',h:'soc'};
+  const sec=(k,ic,name,body)=>`<details ${cur===k||KT[k]===rec?'open':''}><summary>${ic} ${name}${KT[k]===rec?' <span class="tagr">⭐おすすめ 2ばい</span>':''}</summary><div class="pickg">${body}</div></details>`;
+  const fx=k=>FIXQ[k][2].map(u=>b(k+':'+u[0],u[1])).join('')+b(k+':all',FIXQ[k][0]+'ぜんぶ');
+  modal(`<h2>どの問題をとく？</h2><p class="muted">教科をおすと単元がひらく。1問正解で水が1こ。</p>
+  <div class="pickg" style="grid-template-columns:1fr"><button data-a="pickSub" data-v="weak" class="${S.sub==='weak'?'on':''}" ${wn?'':'disabled'}>😣 苦手な問題にちょうせん（${wn}問）</button></div>
+  ${sec('k','✍️','国語（漢字）',b('k:1','1学期の漢字')+b('k:2','2学期の漢字')+b('k:all','漢字ぜんぶ'))}
+  ${sec('m','🔢','算数',UNITS.map(u=>b('m:'+u[0],u[1])).join('')+b('m:all','算数ぜんぶ'))}
+  ${sec('s','🔬','理科',fx('s'))}
+  ${sec('h','🌏','社会',fx('h'))}
+  <div class="pickg" style="grid-template-columns:1fr;margin-top:10px">${b('mix','🎲 4教科ミックス')}</div>
+  <p class="center" style="margin-top:14px"><button class="btn sub" data-a="closeModal">とじる</button></p>`)},
+ tool(v){TOOL=TOOL===v?null:v;drawTool()},
+ memoClear(){drawTool()},
+ ck(v){if(v==='C')CALC='';else if(v==='BS')CALC=CALC.slice(0,-1);else if(v==='='){const x=calcEval(CALC);CALC=isFinite(x)?String(x):''}else if(CALC.length<24)CALC+=v;$('#cd').textContent=calcShow()},
+ pickSub(v){S.sub=v;closeModal();openQuiz('study')},
+ go(v){openQuiz(v)},
+ ans(v){answer(+v)},
+ next(){clearTimeout(Q.tm);nextQ()},
+ closeQuiz,
+ backStudy(){openQuiz('study')},
+ fight(){nextQ()},
+ scare(){S.items.kakashi--;toast('👒 かかしが害虫をおいはらった');openQuiz('study')},
+ plant(i){
+  const list=CROPS.filter(c=>!c.sea||c.sea===SEA);
+  modal(`<h2>どのたねをまく？</h2><p class="muted">もっているコイン 🪙${fmt(S.money)}</p><div class="list">${list.map(c=>{const lock=S.lv<c.lv;
+   return `<div class="row"><span class="em">${lock?'🔒':c.e}</span><div class="grow"><b>${c.n}</b>${c.sea?' <small>期間限定</small>':''}<br><small>${lock?`Lv.${c.lv}でまけるようになる`:`水${c.w}こで育つ　売ると🪙${fmt(c.sell*sellMult())}`}</small></div><button class="btn" data-a="seed" data-v="${i}:${c.id}" ${lock||S.money<c.cost?'disabled':''}>🪙${fmt(c.cost)}</button></div>`}).join('')}</div><p class="center"><button class="btn sub" data-a="closeModal">とじる</button></p>`)},
+ seed(v){const [i,id]=v.split(':'),c=CROP[id];if(S.money<c.cost||S.plots[i])return;S.money-=c.cost;S.plots[i]={id,w:0,g:{math:0,kanji:0,sci:0,soc:0}};closeModal();render();const el=document.querySelectorAll('.plot')[i];if(el){el.classList.add('pop');burst(el,['🌱','✨','💧'],12)}sfx('plant')},
+ info(i){const p=S.plots[i],c=CROP[p.id];
+  if(S.water<1){sfx('ng');return toast('水がない。下の「水をゲット」で問題をとこう')}
+  S.water--;p.w++;render();const el=document.querySelectorAll('.plot')[i];if(el){el.classList.add('pop');burst(el,['💧','💧','✨'],p.w>=c.w?16:8)}sfx(p.w>=c.w?'harvest':'plant')},
+ harvest(i){
+  const c=CROP[S.plots[i].id],el=document.querySelectorAll('.plot')[i],r0=el&&el.getBoundingClientRect();
+  S.plots[i]=null;S.crops[c.id]=(S.crops[c.id]||0)+1;const x=addXp(c.xp);bump('harvest',1);sfx('harvest');render();
+  const cnt=$('#basket b');if(r0&&cnt)cnt.textContent=stockCount()-1;
+  fly(r0,$('#basket'),c.e,0,46,()=>{const b=$('#basket'),n=$('#basket b');if(n)n.textContent=stockCount();rePop(b);burst(b,['✨','⭐'],6);sfx('coin');toast(`${c.e}${c.n}をカゴに入れた　XP+${x}`)})},
+ sell(){
+  const v=stockValue();if(!v)return;const old=S.money,bk=$('#basket'),r0=bk&&bk.getBoundingClientRect?bk.getBoundingClientRect():null;
+  S.money+=v;S.crops={};S.fish={};render();toast(`🪙${fmt(v)} で売れた`);
+  const mo=$('#mo'),n=Math.min(14,5+Math.floor(Math.log10(v+1)*2));let got=0;mo.textContent=fmt(old);
+  for(let k=0;k<n;k++)fly(r0,mo,'🪙',k*75,28,()=>{got++;sfx('coin');mo.textContent=fmt(old+v*got/n);rePop(mo.parentNode)})},
+ buy(v){
+  const n=S.plots.length,cost={plot:200*Math.pow(2,n-4),kakashi:150,hiryo:120,net:300,rod:500}[v];if(S.money<cost)return;
+  if(v==='plot'){if(n>=12)return;S.plots.push(null)}
+  else if(v==='hiryo'){if(!planted().length)return;water();water();water()}
+  else if(v==='kakashi')S.items.kakashi++;
+  else{if(S.items[v])return;S.items[v]=1}
+  S.money-=cost;toast('買った！');render()},
+ claim(i){const m=S.ms.l[i];if(m.c||m.p<MT[m.k][1])return;m.c=true;S.tickets++;toast('🎟️ ガチャチケットを1まい受け取った');sfx('coin');burst($('#tk'),['🎟️','✨'],10);render()},
+ gacha(){
+  if(!S.tickets)return;S.tickets--;sfx('win');
+  const c=roll(CRE.filter(c=>c.src==='gacha'||c.src===SEA)),nw=obtain(c);let ex='ずかんに登録！';
+  if(!nw){const g=addCoin([0,50,200,800,3200][c.r]);ex=`もうもっているので、コイン🪙${g}にかわった。`}
+  render();
+  modal(`<div class="center"><p class="num" style="font-size:26px;margin:4px 0">${RAR[c.r]}</p><div class="huge">${c.e}</div><h2>${c.n}</h2><p>${ex}</p><button class="btn" data-a="closeModal">とじる</button></div>`)},
+ settings(){
+  modal(`<h2>せってい</h2>
+  <div class="box"><b>先生用：レベルを変える</b><p class="muted">動作の確認や、進み具合の調整に使えます。</p><div class="row"><input type="number" id="setlv" min="1" max="${MAXLV}" value="${S.lv}"><button class="btn" data-a="setLv">このレベルにする</button></div></div>
+  <div class="box"><b>データを最初からにする</b><p class="muted">コイン、レベル、ずかんがすべて消えます。</p><button class="btn sub" data-a="reset">最初からにする</button></div>
+  <p class="muted">データはこの端末のブラウザに保存されます。別の端末には引きつがれません。</p>
+  <p class="center"><button class="btn sub" data-a="closeModal">とじる</button></p>`)},
+ setLv(){const v=Math.max(1,Math.min(MAXLV,parseInt($('#setlv').value)||1));S.lv=v;S.xp=0;closeModal();render();toast(`Lv.${v} にした`)},
+ reset(){modal(`<h2>本当に最初からにする？</h2><p>もとにもどせません。</p><p><button class="btn" data-a="resetYes">最初からにする</button> <button class="btn sub" data-a="closeModal">やめる</button></p>`)},
+ resetYes(){S=def();norm();closeModal();render()},
+ mute(){S.mute=!S.mute;if(master)master.gain.value=S.mute?0:1;render()},
+ unlock(v){const a=AREAS.find(x=>x.id===v);if(!a||isOpen(a)||S.lv<a.lv||S.money<a.cost)return;S.money-=a.cost;S.open[v]=1;sfx('win');render();burst($('#lv'),['🎉','🎊','⭐',a.e],22);toast(`🎉 ${a.e}「${a.n}」を開放した！`)},
+ closeModal
+};
+document.addEventListener('visibilitychange',()=>{if(AC)document.hidden?AC.suspend():AC.resume()});
+document.addEventListener('click',e=>{
+  if(ac()&&!bgm.name)syncBgm();
+  if(e.target.id==='modal')return closeModal();
+  const b=e.target.closest('[data-a]');if(b&&!b.disabled&&A[b.dataset.a])A[b.dataset.a](b.dataset.v)});
+render();
+</script>
+</body>
+</html>
