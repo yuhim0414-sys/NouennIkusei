@@ -186,12 +186,13 @@ nav div{align-items:flex-end}
 /* ===== 調整用の数値（ここを変えるとバランスが変わります） ===== */
 const AREAS=[
  {id:'farm',lv:1,e:'🌾',n:'農園',d:'作物を育てて売ろう。'},
- {id:'river',act:'fish',lv:50,cost:3000,e:'🏞️',n:'川',d:'問題に正解して川の魚をつろう。つりざおが必要。'},
- {id:'forest',act:'find',lv:100,cost:10000,e:'🌲',n:'森',d:'めずらしい虫や動物をさがそう。きのこも育てられる。'},
- {id:'rail',lv:150,cost:30000,e:'🚂',n:'鉄道',d:'遠くの町へ出荷できる。売るねだんが1.5倍。'},
- {id:'ship',lv:300,cost:100000,e:'🚢',n:'船',d:'海の向こうへ出荷できる。売るねだんが2倍。'},
- {id:'sea',act:'fish',lv:500,cost:300000,e:'🌊',n:'海',d:'海の大物をつろう。'},
- {id:'plane',lv:600,cost:1000000,e:'✈️',n:'ひこうき',d:'世界中へ出荷できる。売るねだんが3倍。'}
+ {id:'cave',act:'dig',lv:30,cost:5000,e:'⛏️',n:'洞窟',d:'1問正解するたびに1mほり進む。深いほど報酬がふえ、10mごとに宝箱が出る。'},
+ {id:'river',act:'fish',lv:50,cost:10000,e:'🏞️',n:'川',d:'問題に正解して川の魚をつろう。つりざおが必要。'},
+ {id:'forest',act:'find',lv:100,cost:30000,e:'🌲',n:'森',d:'めずらしい虫や動物をさがそう。きのこも育てられる。'},
+ {id:'rail',lv:150,cost:80000,e:'🚂',n:'鉄道',d:'遠くの町へ出荷できる。売るねだんが1.5倍。'},
+ {id:'ship',lv:300,cost:250000,e:'🚢',n:'船',d:'海の向こうへ出荷できる。売るねだんが2倍。'},
+ {id:'sea',act:'fish',lv:500,cost:700000,e:'🌊',n:'海',d:'海の大物をつろう。'},
+ {id:'plane',lv:600,cost:2000000,e:'✈️',n:'ひこうき',d:'世界中へ出荷できる。売るねだんが3倍。'}
 ];
 const MAXLV=1000;
 const isOpen=a=>a.id==='farm'||!!S.open[a.id];
@@ -203,7 +204,7 @@ const CROPS=[
  ['kinoko','🍄','きのこ',700,8,1700,80,100],['budou','🍇','ぶどう',1200,9,3000,120,150],['pine','🍍','パイナップル',3000,10,8000,250,300],
  ['melon','🍈','メロン',6000,10,17000,400,500],['mango','🥭','マンゴー',12000,12,36000,700,600],
  ['tulip','🌷','チューリップ',60,4,220,25,1,'spr'],['suika','🍉','すいか',60,4,220,25,1,'sum'],['pumpkin','🎃','かぼちゃ',60,4,220,25,1,'aut'],['mikan','🍊','みかん',60,4,220,25,1,'win']
-].map(c=>({id:c[0],e:c[1],n:c[2],cost:c[3],w:c[4],sell:c[5],xp:c[6],lv:c[7],sea:c[8]}));
+].map(c=>({id:c[0],e:c[1],n:c[2],cost:c[3],w:c[4],sell:Math.round(c[5]*.7/5)*5,xp:c[6],lv:c[7],sea:c[8]}));
 const CROP=Object.fromEntries(CROPS.map(c=>[c.id,c]));
 // 教科ごとの水と、作物が必要とする水の組み合わせ（合計は「必要な水やり回数」と同じにする）
 const TYPES=['math','kanji','sci','soc'],TI={math:'🔢',kanji:'✍️',sci:'🔬',soc:'🌏'};
@@ -223,10 +224,40 @@ const CRE=[
  ['kamo','🦆','かも',1,'river'],['zarigani','🦞','ざりがに',1,'river'],['hakuchou','🦢','はくちょう',2,'river'],['kawauso','🦦','かわうそ',3,'river'],['flamingo','🦩','フラミンゴ',3,'river'],['kaba','🦛','かば',4,'river'],
  ['kaigara','🐚','かいがら',1,'sea'],['kaki','🦪','かき',1,'sea'],['azarashi','🦭','あざらし',2,'sea'],['penguin','🐧','ペンギン',2,'sea'],['shiofuki','🐳','しおふきくじら',3,'sea'],['kubinaga','🦕','くびながりゅう',4,'sea'],['ningyo','🧜','にんぎょ',4,'sea'],
  ['inu','🐕','いぬ',1,'gacha'],['neko','🐈','ねこ',1,'gacha'],['yagi','🐐','やぎ',1,'gacha'],['ondori','🐓','おんどり',1,'gacha'],['shichimen','🦃','しちめんちょう',2,'gacha'],['alpaca','🦙','アルパカ',2,'gacha'],['rakuda','🐫','らくだ',2,'gacha'],['kirin','🦒','きりん',3,'gacha'],['zou','🐘','ぞう',3,'gacha'],['lion','🦁','ライオン',3,'gacha'],['uchuu','🧑‍🚀','うちゅう農家',3,'gacha'],['ninja','🥷','にんじゃ農家',3,'gacha'],['yousei','🧚','畑のようせい',4,'gacha'],['ryuu','🐉','でんせつの竜',4,'gacha'],['kyouryuu','🦖','きょうりゅう',4,'gacha'],['ousama','🤴','農園の王さま',4,'gacha'],
+ ['ishi','🪨','石ころ',1,'cave'],['tetsu','⚙️','鉄こう石',1,'cave'],['dou','🥉','どう',1,'cave'],['gin','🥈','ぎん',2,'cave'],['suishou','🔮','すいしょう',2,'cave'],['hone','🦴','きょうりゅうのほね',3,'cave'],['kin','🥇','きん',3,'cave'],['daiya','💎','ダイヤモンド',4,'cave'],
  ['s_spr','🐇','はるうさぎ',3,'spr'],['s_sum','🦜','なつのオウム',3,'sum'],['s_aut','👻','パンプキンおばけ',3,'aut'],['s_win','⛄','ゆきだるま',3,'win']
 ].map(c=>({id:c[0],e:c[1],n:c[2],r:c[3],src:c[4]}));
+// 追加の図鑑: 場所ごとに [N, R, SR, SSR]。「絵 名前 名前…」を ; で区切る
+const MORE={
+farm:['🦋 もんしろちょう もんきちょう しじみちょう あげはちょう;🐞 ななほしてんとう なみてんとう;🐜 くろおおあり くろやまあり;🦗 しょうりょうばった とのさまばった おんぶばった えんまこおろぎ すずむし きりぎりす;🐝 くまばち まるはなばち;🐛 いもむし けむし しゃくとりむし;🐦 つばめ むくどり ひよどり はと からす せきれい もず;🐌 なめくじ;🐸 あまがえる',
+ '🦋 きあげは あおすじあげは るりたては;🪲 こがねむし かなぶん はなむぐり;🦗 かまきり おおかまきり くつわむし まつむし;🐦 うぐいす めじろ しじゅうから きじばと ひばり;🐭 はつかねずみ;🐹 ハムスター;🦎 かなへび やもり;🐸 とのさまがえる;🕷️ じょろうぐも',
+ '🦋 おおむらさき あさぎまだら みやまからすあげは;🪲 たまむし;🐦 きじ;🦆 あいがも;🐇 しろうさぎ;🐍 あおだいしょう しまへび;🦇 あぶらこうもり;🐢 くさがめ;🦉 あおばずく;🐈‍⬛ くろねこ',
+ '🦚 しろくじゃく;🦋 にじいろのちょう;🐞 きんいろのてんとう虫;🐇 つきのうさぎ;🐦 しあわせの青い鳥;🐓 きんのにわとり;🐝 女王ばち;🦗 でんせつのこおろぎ'],
+cave:['🪨 かこうがん げんぶがん あんざんがん さがん でいがん れきがん せっかいがん ねんばんがん かるいし チャート ぎょうかいがん りゅうもんがん はんれいがん せんりょくがん へんまがん だいりせき;⚙️ じてっこう せきてっこう;🧱 ねんど;⚫ せきたん;🧂 がんえん;⚪ せっこう かっせき;🟡 いおう;🦇 きくがしらこうもり;🕷️ どうくつぐも;🦗 かまどうま;🦐 どうくつえび',
+ '💠 ほたるいし ほうかいせき;🔮 むらさきずいしょう けむりずいしょう ばらずいしょう;🟢 くじゃくいし ひすい;🔵 ラピスラズリ トルコいし;🟠 めのう こはく;🟡 おうてっこう;⚫ こくようせき;🐚 アンモナイトの化石 さんようちゅうの化石;🌿 しだの化石;🦷 サメの歯の化石;🦎 どうくつさんしょううお;⚪ せきえい;🔴 ざくろいし;🌕 ムーンストーン',
+ '💎 サファイア ルビー エメラルド トパーズ アクアマリン オパール ペリドット タンザナイト;🦴 ティラノサウルスのきば トリケラトプスのつの マンモスのきば;☄️ いんせき;🏺 縄文土器;🗿 はにわ;🪙 こばん',
+ '💎 ピンクダイヤモンド ブルーダイヤモンド;👑 おうごんのかんむり;🗝️ ひみつのかぎ;🐉 ちていの竜;🦕 きょうりゅうの全身こっかく;🌈 にじいろのこうせき'],
+forest:['🐿️ しまりす むささび ももんが;🐭 あかねずみ やまね;🐦 きつつき やまがら えなが かけす ほおじろ こげら;🪲 かみきりむし ぞうむし ごみむし;🦋 じゃのめちょう ひかげちょう;🐛 みのむし;🕷️ あしだかぐも はえとりぐも;🐸 ひきがえる もりあおがえる;🦗 ひぐらし あぶらぜみ みんみんぜみ つくつくぼうし にいにいぜみ;🐇 ゆきうさぎ',
+ '🪲 のこぎりくわがた みやまくわがた こくわがた ひらたくわがた はんみょう;🦌 にほんじか かもしか;🦊 きたきつね;🦝 あらいぐま はくびしん;🦡 あなぐま;🐒 にほんざる;🦉 このはずく;🐦 あかげら おおるり きびたき るりびたき;🐍 やまかがし;🦎 にほんとかげ;🐗 うりぼう;🦇 おおこうもり',
+ '🪲 おおくわがた ヘラクレスおおかぶと コーカサスおおかぶと アトラスおおかぶと ギラファのこぎりくわがた;🐻 つきのわぐま ひぐま;🦅 おおたか くまたか いぬわし;🦉 しまふくろう;🐺 にほんおおかみ;🦌 へらじか;🐆 ひょう;🦍 ゴリラ;🦧 オランウータン',
+ '🐅 ホワイトタイガー;🦌 森の主のしか;🦉 ちえのふくろう;🦝 レッサーパンダ;🦜 ケツァール;🐉 森の竜;🪲 おうごんおにくわがた'],
+river:['🐟 おいかわ かわむつ うぐい ふな もろこ どじょう よしのぼり めだか たなご わかさぎ むぎつく;🦐 ぬまえび てながえび;🐸 つちがえる うしがえる おたまじゃくし;🐚 たにし かわにな しじみ;🦆 かるがも まがも',
+ '🐟 こい なまず いわな やまめ あまご にじます うなぎ ブラックバス ブルーギル かじか;🦀 もくずがに;🐢 いしがめ すっぽん;🦆 おしどり かいつぶり;🐦 かわせみ;🦢 こはくちょう',
+ '🐟 さけ いとう びわます にしきごい ちょうざめ;🦎 おおさんしょううお;🐦 やませみ あおさぎ;🐹 カピバラ',
+ '🐟 きんいろのこい ピラルク;🐬 ピンクのかわいるか;🐉 川の竜神;🐸 きんのかえる'],
+sea:['🐟 いわし あじ さば さんま にしん きす かれい ぼら とびうお かわはぎ めばる あなご たら;🦐 さくらえび あまえび;🦀 いそがに やどかり;🐚 あさり はまぐり さざえ ほたて;⭐ ひとで;🦑 ほたるいか するめいか;🐙 いいだこ;🌿 わかめ こんぶ',
+ '🐟 たい ぶり かつお ひらめ すずき さわら たちうお あんこう うつぼ かさご;🐠 くまのみ ちょうちょううお なんようはぎ つのだし;🦞 いせえび;🦀 ずわいがに たらばがに;🐚 あわび しんじゅがい;🐡 はりせんぼん;🐢 あおうみがめ;🦑 あおりいか',
+ '🐟 まぐろ かじき まんぼう りゅうぐうのつかい シーラカンス;🦈 じんべえざめ ほおじろざめ しゅもくざめ;🐬 バンドウイルカ;🐋 ざとうくじら しゃち;🐙 みずだこ;🦦 らっこ;🦭 あしか せいうち;🐧 こうていペンギン',
+ '🐋 シロナガスクジラ;🦑 ダイオウイカ;🐙 クラーケン;🐉 海の竜神;🦈 メガロドン;🐚 にじいろのしんじゅ;🔱 海の王ポセイドン'],
+gacha:['🐕 しばいぬ あきたいぬ プードル チワワ ダックスフント;🐈 みけねこ とらねこ しろねこ;🐇 ミニうさぎ;🐹 モルモット;🐤 あひるのひな;🦆 あひる;🐎 ポニー;🐂 おうし;🐃 すいぎゅう;🐏 おひつじ;🐪 ひとこぶらくだ;🐁 しろねずみ;🦜 インコ オウム;🐢 りくがめ;🧑‍🌾 見習い農家;👩‍🌾 おばあちゃん農家;👨‍🌾 おじいちゃん農家;🧑‍🍳 農園のコック;🧑‍🔧 しゅうり屋さん',
+ '🦘 カンガルー;🐨 コアラ;🦓 しまうま;🦏 さい;🐆 チーター;🦬 バイソン;🦙 リャマ;🐊 アリゲーター;🐿️ プレーリードッグ;🦡 ラーテル;🐕‍🦺 ぼくようけん;🧑‍🔬 やさい博士;🧑‍🏫 農園の先生;🧑‍⚕️ どうぶつのお医者さん;🧑‍🎨 畑の絵かき;🧑‍🚒 しょうぼう農家;🧑‍✈️ ひこうきパイロット;🧑‍🎤 うたう農家;🕵️ 畑のたんてい;🤠 カウボーイ;👷 だいく農家',
+ '🐘 マンモス;🦁 ホワイトライオン;🐻‍❄️ ほっきょくぐま;🧝 森のエルフ;🧞 ランプのせい;🦸 やさいヒーロー;🤖 しゅうかくロボ 水やりロボ;🎅 サンタ農家;🧙‍♀️ 畑のまじょ;🏴‍☠️ かいぞく船長;🥋 からて農家;👸 農園のおひめさま;🐲 こどもの竜;🤺 畑のきし',
+ '🐎 ペガサス;🔥 フェニックス;🐲 おうごんの竜;👼 豊作の天使;🌞 太陽の神さま;🌙 月の神さま;⚡ かみなりの神さま;🧑‍🌾 でんせつの大農家']
+};
+for(const src in MORE)MORE[src].forEach((str,ri)=>str.split(';').forEach(g=>{const t=g.split(' ');t.slice(1).forEach(n=>CRE.push({id:'x_'+n,e:t[0],n,r:ri+1,src}))}));
+const bonusPct=()=>Math.floor(uniq()/5);
 const RAR=['','N','R','SR','SSR'];
-const SRC={farm:'農園',forest:'森',gacha:'ガチャ',river:'川',sea:'海',spr:'春限定',sum:'夏限定',aut:'秋限定',win:'冬限定'};
+const SRC={cave:'洞窟',farm:'農園',forest:'森',gacha:'ガチャ',river:'川',sea:'海',spr:'春限定',sum:'夏限定',aut:'秋限定',win:'冬限定'};
 const PESTS=[['🐛','いもむし',3],['🐦','カラス',3],['🐀','ねずみ',4],['🦝','あらいぐま',4],['🐗','いのしし',5]];
 const SEASONS={spr:{n:'春のおはなみ祭',end:'5月31日'},sum:{n:'夏まつり',end:'8月31日'},aut:{n:'秋のしゅうかく祭',end:'11月30日'},win:{n:'冬の雪まつり',end:'2月末'}};
 const MON=new Date().getMonth()+1;
@@ -720,7 +751,7 @@ const SUBJ={math:'算数',kanji:'漢字',sci:'理科',soc:'社会'};
 
 /* ===== セーブデータ ===== */
 const KEY='manabi-nouen-v1';
-const def=()=>({v:1,money:100,lv:1,xp:0,tickets:1,plots:[null,null,null,null],crops:{},fish:{},items:{kakashi:0,net:0,rod:0},coll:{},combo:0,best:0,total:0,pestIn:7,sub:'mix',tab:'farm',mute:false,water:0,w:{math:0,kanji:0,sci:0,soc:0},day:null,weak:{},av:{},open:{},ms:{d:'',l:[]}});
+const def=()=>({v:1,money:100,lv:1,xp:0,tickets:1,plots:[null,null,null,null],crops:{},fish:{},items:{kakashi:0,net:0,rod:0},coll:{},combo:0,best:0,total:0,pestIn:7,sub:'mix',tab:'farm',mute:false,water:0,w:{math:0,kanji:0,sci:0,soc:0},day:null,weak:{},av:{},open:{},depth:0,ms:{d:'',l:[]}});
 function load(){try{const j=JSON.parse(localStorage.getItem(KEY));if(j&&j.v===1){const d=def();return Object.assign(d,j,{items:Object.assign(d.items,j.items)})}}catch(e){}return def()}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 let S=load(),Q=null;
@@ -737,7 +768,7 @@ const $=s=>document.querySelector(s);
 const fmt=n=>Math.round(n).toLocaleString('ja-JP');
 function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;$('#toasts').appendChild(d);setTimeout(()=>d.remove(),2600)}
 const uniq=()=>Object.keys(S.coll).length;
-function addCoin(b){const g=Math.round(b*(1+S.lv/100)*(1+uniq()/100));S.money+=g;return g}
+function addCoin(b){const g=Math.round(b*(1+S.lv/200)*(1+bonusPct()/100));S.money+=g;return g}
 function addXp(b){const g=Math.round(b*(1+S.lv/100));S.xp+=g;const o=S.lv;
   while(S.lv<MAXLV&&S.xp>=need(S.lv)){S.xp-=need(S.lv);S.lv++}
   if(S.lv>o){toast(`⭐ レベルアップ！ Lv.${S.lv}`);sfx('lv');burst($('#lv'),['🎉','⭐','🎊'],16);AREAS.forEach(a=>{if(a.lv>o&&a.lv<=S.lv)toast(`🎉 ${a.e}「${a.n}」を開放できるレベルになった！ マップを見よう`)})}
@@ -869,13 +900,12 @@ const V={
   <div class="banner">${sc.e} 期間限定「${se.n}」${se.end}まで。${sc.n}のたねと限定キャラが登場中。</div>
   <p class="muted">れんぞく正解 ${S.combo}問　さいこう ${S.best}問　これまでの正解 ${S.total}問</p>`},
  shop(){
-  const n=S.plots.length,pc=200*Math.pow(2,n-4);
+  const n=S.plots.length,pc=500*Math.pow(2,n-4);
   const it=[
    ['plot','🟫','畑を1つふやす',n>=12?'もうふやせない':`今は${n}つ。12こまで。`,pc,n>=12],
-   ['kakashi','👒','かかし',`害虫を1回おいはらう。もっている数 ${S.items.kakashi}`,150,false],
-   ['hiryo','🧪','ひりょう','ぜんぶの畑に水を3回ぶんあげる。もっている水はへらない。',120,!planted().length],
-   ['net','🥅','虫あみ',S.items.net?'もっている':'はやく正解したとき、生きものが見つかりやすくなる。',300,!!S.items.net],
-   ['rod','🎣','つりざお',S.items.rod?'もっている':'川と海でつりができる。川を開放すると使える。',500,!!S.items.rod]
+   ['kakashi','👒','かかし',`害虫を1回おいはらう。もっている数 ${S.items.kakashi}`,300,false],
+   ['net','🥅','虫あみ',S.items.net?'もっている':'はやく正解したとき、生きものが見つかりやすくなる。',1000,!!S.items.net],
+   ['rod','🎣','つりざお',S.items.rod?'もっている':'川と海でつりができる。川を開放すると使える。',1500,!!S.items.rod]
   ];
   return `<h2>お店</h2><p class="muted">問題をといてためたコインで、農園に役立つものを買おう。たねは畑の＋から買えるよ。</p>
   <div class="box list">${it.map(x=>`<div class="row"><span class="em">${x[1]}</span><div class="grow"><b>${x[2]}</b><br><small>${x[3]}</small></div><button class="btn" data-a="buy" data-v="${x[0]}" ${x[5]||S.money<x[4]?'disabled':''}>🪙${fmt(x[4])}</button></div>`).join('')}</div>`},
@@ -885,6 +915,7 @@ const V={
     if(open){
       if(a.id==='farm')act=`<button class="btn sub" data-a="tab" data-v="farm">農園へ行く</button>`;
       if(a.id==='river'||a.id==='sea')act=S.items.rod?`<button class="btn" data-a="go" data-v="${a.id}">🎣 つりをする</button>`:`<small>お店でつりざおを買うと、つりができる。</small>`;
+      if(a.id==='cave')act=`<button class="btn" data-a="go" data-v="cave">⛏️ ほり進める（いま${S.depth}m）</button>`;
       if(a.id==='forest')act=`<button class="btn" data-a="go" data-v="forest">🔍 生きものをさがす</button>`;
       if(['rail','ship','plane'].includes(a.id))act=`<small>✅ 出荷ボーナスがきいている</small>`;
     }
@@ -899,11 +930,11 @@ const V={
   <button class="cta" data-a="gacha" ${S.tickets?'':'disabled style="opacity:.5"'}>チケット1まいでガチャをひく</button>
   <p class="muted" style="margin-top:10px">もっているチケット ${S.tickets}まい。害虫をおいはらうと、たまにもらえることもある。</p></div>`},
  book(){
-  const groups=['farm','forest','river','sea','gacha'];
+  const groups=['farm','cave','forest','river','sea','gacha'];
   const cell=c=>{const n=S.coll[c.id];return `<div class="cell r${c.r} ${n?'':'no'}"><span class="em">${n?c.e:'❔'}</span>${n?c.n:'？？？'}<br><span class="tag">${RAR[c.r]}${n>1?' ×'+n:''}</span></div>`};
   const lim=CRE.filter(c=>SEASONS[c.src]);
-  return `<h2>ずかん</h2><p>${uniq()} / ${CRE.length} しゅるい　<b>コインボーナス +${uniq()}%</b></p><p class="muted">1しゅるい見つけるごとに、もらえるコインが1%ふえる。</p>
-  ${groups.map(g=>`<h2 style="font-size:16px">${SRC[g]}</h2><div class="grid">${CRE.filter(c=>c.src===g).map(cell).join('')}</div>`).join('')}
+  return `<h2>ずかん</h2><p>${uniq()} / ${CRE.length} しゅるい　<b>コインボーナス +${bonusPct()}%</b></p><p class="muted">5しゅるい見つけるごとに、もらえるコインが1%ふえる。場所の名前をおすとひらく。</p>
+  ${groups.map(g=>{const L=CRE.filter(c=>c.src===g).sort((a,b)=>a.r-b.r),h=L.filter(c=>S.coll[c.id]).length;return `<details ${S.bk===g?'open':''} data-g="${g}"><summary>${SRC[g]}　<span class="num">${h} / ${L.length}</span></summary><div class="grid">${L.map(cell).join('')}</div></details>`}).join('')}
   <h2 style="font-size:16px">期間限定</h2><div class="grid">${lim.map(cell).join('')}</div>`}
 };
 function msHtml(){const now=new Date(),h=23-now.getHours(),mi=59-now.getMinutes();
@@ -911,7 +942,7 @@ function msHtml(){const now=new Date(),h=23-now.getHours(),mi=59-now.getMinutes(
   <div class="box list">${S.ms.l.map((m,i)=>{const g=MT[m.k][1],done=m.p>=g;
     return `<div class="row"><div class="grow"><b>${MT[m.k][0]}</b><div class="bar" style="margin-top:5px"><i style="width:${m.p/g*100}%"></i></div><small>${m.p} / ${g}</small></div>${m.c?'<small>受け取りずみ</small>':`<button class="btn" data-a="claim" data-v="${i}" ${done?'':'disabled'}>🎟️ 受け取る</button>`}</div>`}).join('')}</div>`}
 function placesHtml(){const ps=AREAS.filter(a=>a.act&&isOpen(a));if(!ps.length)return '';
-  return `<p style="margin:14px 0 4px">行ける場所</p><div class="seg" style="margin-top:0;flex-wrap:wrap">${ps.map(a=>a.act==='fish'&&!S.items.rod?`<button data-a="tab" data-v="shop">${a.e} ${a.n}<br><small>お店でつりざおを買おう</small></button>`:`<button data-a="go" data-v="${a.id}">${a.e} ${a.n}<br><small>${a.act==='fish'?'つりをする':'生きものをさがす'}</small></button>`).join('')}</div>`}
+  return `<p style="margin:14px 0 4px">行ける場所</p><div class="seg" style="margin-top:0;flex-wrap:wrap">${ps.map(a=>a.act==='fish'&&!S.items.rod?`<button data-a="tab" data-v="shop">${a.e} ${a.n}<br><small>お店でつりざおを買おう</small></button>`:`<button data-a="go" data-v="${a.id}">${a.e} ${a.n}<br><small>${{fish:'つりをする',find:'生きものをさがす',dig:'ほり進める（'+S.depth+'m）'}[a.act]}</small></button>`).join('')}</div>`}
 const stockCount=()=>Object.values(S.crops).concat(Object.values(S.fish)).reduce((a,b)=>a+b,0);
 function fly(r0,to,ch,delay,size,done){try{if(!r0||!to||matchMedia('(prefers-reduced-motion:reduce)').matches){done&&done();return}
   const r1=to.getBoundingClientRect(),x0=r0.left+r0.width/2,y0=r0.top+r0.height/2,dx=r1.left+r1.width/2-x0,dy=r1.top+r1.height/2-y0;
@@ -919,13 +950,14 @@ function fly(r0,to,ch,delay,size,done){try{if(!r0||!to||matchMedia('(prefers-red
   e.animate([{transform:'translate(-50%,-50%) scale(1)',offset:0},{transform:'translate(-50%,calc(-50% - 36px)) scale(1.4)',offset:.28},{transform:`translate(calc(-50% + ${dx*.6}px),calc(-50% + ${dy*.6-56}px)) scale(1.1)`,offset:.68},{transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) scale(.45)`,offset:1}],{duration:800,delay:delay||0,easing:'ease-in-out',fill:'backwards'}).onfinish=()=>{e.remove();done&&done()}}catch(_){done&&done()}}
 const rePop=el=>{if(el&&el.classList){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop')}};
 function stockValue(){let v=0;for(const k in S.crops)v+=CROP[k].sell*S.crops[k];
-  for(const k in S.fish){const c=CRE.find(x=>x.id===k);v+=[0,40,120,400,1500][c.r]*(c.src==='sea'?10:1)*S.fish[k]}
+  for(const k in S.fish){const c=CRE.find(x=>x.id===k);v+=[0,20,60,200,800][c.r]*(c.src==='sea'?5:1)*S.fish[k]}
   return v*sellMult()}
 function modal(h){$('#sheet').innerHTML=h;$('#modal').hidden=false}
 function closeModal(){$('#modal').hidden=true}
 
 /* ===== クイズ ===== */
-const LABEL={study:'✏️ べんきょう',battle:'⚔️ 畑を守るたたかい',river:'🎣 川でつり',sea:'🎣 海でつり',forest:'🔍 森でさがす'};
+const caveCoin=d=>5+Math.floor(d/2);
+const LABEL={cave:'⛏️ 洞窟をほる',study:'✏️ べんきょう',battle:'⚔️ 畑を守るたたかい',river:'🎣 川でつり',sea:'🎣 海でつり',forest:'🔍 森でさがす'};
 function openQuiz(mode,sub){Q={mode,sub:sub||S.sub,miss:0};$('#quiz').hidden=false;nextQ();syncBgm()}
 function closeQuiz(){if(Q)clearTimeout(Q.tm);Q=null;$('#quiz').hidden=true;syncBgm();render()}
 function nextQ(){
@@ -936,6 +968,7 @@ function nextQ(){
 function drawQ(){
   const q=Q.cur,long=q.c.some(c=>c.replace(/<[^>]+>/g,'').length>8);$('#qlabel').textContent=LABEL[Q.mode]+(Q.mode==='study'?'　'+subName(Q.sub):'');
   let head=`<p class="muted" style="margin:8px 0 0">🔥 れんぞく正解 ${S.combo}問</p>`;
+  if(Q.mode==='cave')head+=`<div class="box" style="margin:8px 0 0">⛏️ ふかさ <b class="num" style="font-size:22px">${S.depth}m</b>　つぎの1mで 🪙${fmt(caveCoin(S.depth+1)*(1+S.lv/200)*(1+bonusPct()/100))}<div class="bar" style="margin:6px 0 2px"><i style="width:${S.depth%10*10}%"></i></div><small>あと${10-S.depth%10}mで宝箱</small></div>`;
   if(Q.mode==='battle')head=`<div class="foe"><span class="big">${Q.pest.e}</span><div><b>${Q.pest.n}</b><div>${'❤️'.repeat(Q.pest.hp)}${'🤍'.repeat(Q.pest.max-Q.pest.hp)}</div><small>ミス ${Q.miss} / 3　30秒でこたえよう</small></div></div><div class="tbar"><i id="tb"></i></div>`;
   $('#qbody').innerHTML=head+`<div class="qcard"><small>${SUBJ[q.s]}</small><p>${q.q}</p></div><div class="opts${long?' long':''}">${q.c.map((c,i)=>`<button data-a="ans" data-v="${i}">${c}</button>`).join('')}</div><div id="fb"></div>`+(q.s==='math'?`<div class="tools"><button data-a="tool" data-v="calc" class="${TOOL==='calc'?'on':''}">🧮 電卓</button><button data-a="tool" data-v="memo" class="${TOOL==='memo'?'on':''}">✏️ 計算メモ</button></div><div id="tool"></div>`:'');
   CALC='';drawTool();$('#quiz').scrollTop=0;
@@ -969,7 +1002,7 @@ function answer(i){
   let lines=[],end=null,capped=false;
   if(ok){
     if(Q.sub==='weak'&&S.weak[wkey]){delete S.weak[wkey];var cleared=1}S.combo++;S.total++;S.best=Math.max(S.best,S.combo);
-    const bonus=recSub()===q.s,left=q.u?capLeft(q.u):99,wg=left<1?0:bonus?2:1,coin=addCoin((10+Math.min(S.combo,10)+(fast?5:0))*(bonus?2:1)),xp=addXp(10+(fast?5:0));
+    const bonus=recSub()===q.s,left=99,wg=left<1?0:bonus?2:1,coin=addCoin((5+Math.min(S.combo,5)+(fast?3:0))*(bonus?2:1)),xp=addXp(10+(fast?5:0));
     S.water+=wg;S.day.n[q.s]++;if(q.u)S.day.u[q.u]=(S.day.u[q.u]||0)+1;capped=left<=1;bump(q.s,1);bump('combo',0);if(fast)bump('fast',1);
     lines.push(`<span class="gain">⭕ 正解！ 🪙+${coin}　XP+${xp}　${wg?'💧水+'+wg+'（いま'+S.water+'こ）':'水はなし'}</span>`);if(bonus)lines.push('⭐ 今日のおすすめボーナス！ '+(wg?'水とコインが2ばい':'コインが2ばい'));if(capped)lines.push(`<span class="exp"><b>🚰 「${subName(q.u)}」の水は今日はおしまい</b><br>同じ単元でもらえる水は1日${capOf(q.u)}問まで。ほかの単元の問題で水をためよう。</span>`);if(cleared)lines.push(`💪 苦手を1つクリア！ のこり${Object.keys(S.weak).length}問`);
     if(Q.mode==='study'){
@@ -979,9 +1012,13 @@ function answer(i){
       const c=roll(CRE.filter(c=>c.src===Q.mode),fast),nw=obtain(c);S.fish[c.id]=(S.fish[c.id]||0)+1;lines.push(`🎣 ${c.e}${c.n}（${RAR[c.r]}）がつれた${nw?'。ずかんに登録！':''}`);
     }else if(Q.mode==='forest'){
       const c=roll(CRE.filter(c=>c.src==='forest'),fast),nw=obtain(c);lines.push(`🔍 ${c.e}${c.n}（${RAR[c.r]}）を見つけた${nw?'。ずかんに登録！':''}`);
+    }else if(Q.mode==='cave'){
+      S.depth++;const cc=addCoin(caveCoin(S.depth));lines.push(`⛏️ ${S.depth}mまでほり進んだ！ 深さの報酬 🪙+${cc}`);
+      if(S.depth%10===0){const c=roll(CRE.filter(c=>c.src==='cave'),S.depth>=100),nw=obtain(c);lines.push(`🎁 ${S.depth}mの宝箱！ ${c.e}${c.n}（${RAR[c.r]}）${nw?'。ずかんに登録！':''}`);
+        if(S.depth%50===0){S.tickets++;lines.push('🎟️ ガチャチケットもゲット！')}capped=true}
     }else if(Q.mode==='battle'){
       Q.pest.hp--;
-      if(Q.pest.hp<=0){const c=addCoin(40*Q.pest.max),x=addXp(15*Q.pest.max);bump('pest',1);let t='';if(Math.random()<.2){S.tickets++;t='　🎟️チケットもゲット！'}
+      if(Q.pest.hp<=0){const c=addCoin(20*Q.pest.max),x=addXp(15*Q.pest.max);bump('pest',1);let t='';if(Math.random()<.2){S.tickets++;t='　🎟️チケットもゲット！'}
         end=`🎉 ${Q.pest.n}をおいはらった！<br>🪙+${c}　XP+${x}${t}`}
       else lines.push(`💥 ${Q.pest.n}にダメージ！ あと${Q.pest.hp}回`);
     }
@@ -989,7 +1026,7 @@ function answer(i){
     S.combo=0;S.weak[wkey]={s:q.s,q:q.q,a:q.a,c:q.c,ex:q.ex,u:q.u};const wk=Object.keys(S.weak);if(wk.length>80)delete S.weak[wk[0]];
     lines.push(`<span class="gain">${i<0?'⏰ 時間切れ':'❌ ざんねん'}　正解は「${q.a}」</span>`);
     if(q.ex)lines.push(`<span class="exp"><b>💡 かいせつ</b><br>${q.ex}</span>`);lines.push('<small>📌 「苦手な問題」に入れたよ</small>');
-    if(Q.mode==='river'||Q.mode==='sea')lines.push('魚ににげられた…');
+    if(Q.mode==='river'||Q.mode==='sea')lines.push('魚ににげられた…');if(Q.mode==='cave')lines.push('岩がかたくて、ほり進めなかった…');
     if(Q.mode==='battle'){Q.miss++;
       if(Q.miss>=3){const ix=planted();if(ix.length){const k=pick(ix),c=CROP[S.plots[k].id];S.plots[k]=null;end=`😢 ${c.e}${c.n}を食べられてしまった…<br>つぎは守ろう！`}else end='畑には何もなかったので、帰っていった。'}
       else lines.push(`ミス ${Q.miss} / 3`)}
@@ -1010,7 +1047,7 @@ const A={
  tab(v){S.tab=v;render();window.scrollTo(0,0)},
  sub(v){S.sub=v;render()},
  study(){
-  const lim=v=>{if(!/^[mksh]:/.test(v)||/:all$/.test(v))return '';const n=capLeft(v);return `<br><small>${n?'水は今日あと'+n+'問':'🚰 水は今日おしまい'}</small>`};
+  const lim=v=>{return '';if(!/^[mksh]:/.test(v)||/:all$/.test(v))return '';const n=capLeft(v);return `<br><small>${n?'水は今日あと'+n+'問':'🚰 水は今日おしまい'}</small>`};
   const b=(v,t)=>`<button data-a="pickSub" data-v="${v}" class="${S.sub===v?'on':''}">${t}${lim(v)}</button>`,cur=(S.sub||'')[0],wn=Object.keys(S.weak).length;
   const rec=recSub(),KT={k:'kanji',m:'math',s:'sci',h:'soc'};
   const sec=(k,ic,name,body)=>`<details ${cur===k||KT[k]===rec?'open':''}><summary>${ic} ${name}${KT[k]===rec?' <span class="tagr">⭐おすすめ 2ばい</span>':''}</summary><div class="pickg">${body}</div></details>`;
@@ -1053,7 +1090,7 @@ const A={
   const mo=$('#mo'),n=Math.min(14,5+Math.floor(Math.log10(v+1)*2));let got=0;mo.textContent=fmt(old);
   for(let k=0;k<n;k++)fly(r0,mo,'🪙',k*75,28,()=>{got++;sfx('coin');mo.textContent=fmt(old+v*got/n);rePop(mo.parentNode)})},
  buy(v){
-  const n=S.plots.length,cost={plot:200*Math.pow(2,n-4),kakashi:150,hiryo:120,net:300,rod:500}[v];if(S.money<cost)return;
+  const n=S.plots.length,cost={plot:500*Math.pow(2,n-4),kakashi:300,net:1000,rod:1500}[v];if(S.money<cost)return;
   if(v==='plot'){if(n>=12)return;S.plots.push(null)}
   else if(v==='hiryo'){if(!planted().length)return;water();water();water()}
   else if(v==='kakashi')S.items.kakashi++;
@@ -1063,7 +1100,7 @@ const A={
  gacha(){
   if(!S.tickets)return;S.tickets--;sfx('win');
   const c=roll(CRE.filter(c=>c.src==='gacha'||c.src===SEA)),nw=obtain(c);let ex='ずかんに登録！';
-  if(!nw){const g=addCoin([0,50,200,800,3200][c.r]);ex=`もうもっているので、コイン🪙${g}にかわった。`}
+  if(!nw){const g=addCoin([0,30,100,400,1500][c.r]);ex=`もうもっているので、コイン🪙${g}にかわった。`}
   render();
   modal(`<div class="center"><p class="num" style="font-size:26px;margin:4px 0">${RAR[c.r]}</p><div class="huge">${c.e}</div><h2>${c.n}</h2><p>${ex}</p><button class="btn" data-a="closeModal">とじる</button></div>`)},
  settings(){
